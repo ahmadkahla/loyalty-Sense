@@ -2265,6 +2265,7 @@
 
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -2908,10 +2909,22 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 children: [
                                   SizedBox(height: topSpacing),
 
+                                  // Text(
+                                  //   widget.isEditing
+                                  //       ? 'Edit Your Profile'.tr()
+                                  //       : 'Complete Your Profile',
+                                  //   textAlign: TextAlign.center,
+                                  //   style: TextStyle(
+                                  //     fontSize: isSmall ? 24 : 29,
+                                  //     fontWeight: FontWeight.w800,
+                                  //     letterSpacing: -0.7,
+                                  //     color: const Color(0xFF171A2D),
+                                  //   ),
+                                  // ),
                                   Text(
                                     widget.isEditing
-                                        ? 'Edit Your Profile'
-                                        : 'Complete Your Profile',
+                                        ? 'Edit Your Profile'.tr()
+                                        : 'Complete Your Profile'.tr(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: isSmall ? 24 : 29,
@@ -2978,7 +2991,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Personal details',
+                                                    'Personal details'.tr(),
                                                     style: TextStyle(
                                                       fontSize: isSmall
                                                           ? 14
@@ -2990,20 +3003,20 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 2),
-                                                  Text(
-                                                    'Tell us a little about yourself',
-                                                    style: TextStyle(
-                                                      fontSize: isSmall
-                                                          ? 10.5
-                                                          : 11.5,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: const Color(
-                                                        0xFF777C8D,
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  // const SizedBox(height: 2),
+                                                  // Text(
+                                                  //   'Tell us a little about yourself',
+                                                  //   style: TextStyle(
+                                                  //     fontSize: isSmall
+                                                  //         ? 10.5
+                                                  //         : 11.5,
+                                                  //     fontWeight:
+                                                  //         FontWeight.w500,
+                                                  //     color: const Color(
+                                                  //       0xFF777C8D,
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                             ),
@@ -3013,7 +3026,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                         SizedBox(height: isSmall ? 20 : 25),
 
                                         _buildLabel(
-                                          'name',
+                                          'Name'.tr(),
                                           Icons.person_outline_rounded,
                                           isSmall,
                                         ),
@@ -3040,7 +3053,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                         SizedBox(height: isSmall ? 16 : 19),
 
                                         _buildLabel(
-                                          'Date of birth',
+                                          'Date of birth'.tr(),
                                           Icons.cake_outlined,
                                           isSmall,
                                         ),
@@ -3074,7 +3087,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                         SizedBox(height: isSmall ? 16 : 19),
 
                                         _buildLabel(
-                                          'Email address (optional)',
+                                          'Email address (optional)'.tr(),
                                           Icons.email_outlined,
                                           isSmall,
                                         ),
@@ -3146,7 +3159,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                       const SizedBox(width: 5),
                                       Flexible(
                                         child: Text(
-                                          'Your information is secure',
+                                          'Your information is secure'.tr(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 11.5,
@@ -3256,7 +3269,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   Widget _buildContinueButton(bool isSmall) {
-    final buttonText = widget.isEditing ? 'Save Changes' : 'Continue';
+    final buttonText = widget.isEditing ? 'Save Changes'.tr() : 'Continue';
 
     return SizedBox(
       width: double.infinity,

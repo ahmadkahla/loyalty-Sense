@@ -1950,8 +1950,8 @@ class _HomeScreenState extends State<HomeScreen>
       (success) async {
         if (!success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('I have already received it.'),
+            SnackBar(
+              content: Text('I have already received it.'.tr()),
               backgroundColor: Colors.orange,
             ),
           );

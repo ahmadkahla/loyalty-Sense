@@ -70,6 +70,12 @@
 "Resend": "إعادة إرسال",
 "Verified Successfully": "تم التحقق بنجاح",
 "Your number has been verified.": "تم التحقق من رقمك.",
-"Verified and Secure": "مُتحقَّق منه وآمن"
+"Verified and Secure": "مُتحقَّق منه وآمن",
+"Edit Your Profile": "تعديل ملفك الشخصي",
+"Personal details": "البيانات الشخصية",
+  "Email address (optional)": "عنوان البريد الإلكتروني (اختياري)",
+"Your information is secure": "معلوماتك آمنة",
+"Save Changes": "حفظ التغييرات",
+"I have already received it.": "لقد استلمته بالفعل."
 
 }
