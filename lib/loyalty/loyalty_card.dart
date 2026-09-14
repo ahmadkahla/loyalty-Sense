@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -216,8 +217,8 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 ),
               ),
               const SizedBox(width: 10),
-              const Text(
-                'Current Balance',
+              Text(
+                'Current_Balance'.tr(),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -255,8 +256,16 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 ),
               ),
               const SizedBox(width: 10),
+              // Text(
+              //   '${widget.points} Points'.tr(),
+              //   style: const TextStyle(
+              //     color: Colors.white,
+              //     fontSize: 15,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
               Text(
-                '${widget.points} Points',
+                '${widget.points} ${"Points".tr()}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -280,8 +289,16 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 ),
               ),
               const Spacer(),
+              // Text(
+              //   '$pointsToNext points to next level'.tr(),
+              //   style: const TextStyle(
+              //     color: Colors.white,
+              //     fontSize: 13,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
               Text(
-                '$pointsToNext points to next level',
+                '$pointsToNext ${"points to next level".tr()}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
@@ -307,7 +324,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
           const SizedBox(height: 10),
 
           Text(
-            "Keep going! You're closer to the next level.",
+            "Keep going! You're closer to the next level.".tr(),
             style: TextStyle(
               color: Colors.white.withOpacity(0.90),
               fontSize: 12,
@@ -395,8 +412,8 @@ class _LoyaltyCardState extends State<LoyaltyCard>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Daily Reward',
+                  Text(
+                    'Daily Reward'.tr(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,

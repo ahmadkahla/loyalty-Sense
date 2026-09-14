@@ -835,7 +835,7 @@
 // //         '$hour:$minute $period';
 // //   }
 // // }
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'OrderDetailsScreen.dart';
@@ -1028,7 +1028,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             Expanded(
               child: _segmentButton(
                 context: context,
-                title: 'Invoice',
+                title: 'Invoice'.tr(),
                 selected: !showPrevious,
                 onTap: () => setState(() => showPrevious = false),
               ),
@@ -1036,7 +1036,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             Expanded(
               child: _segmentButton(
                 context: context,
-                title: 'Return Invoice',
+                title: 'Return Invoice'.tr(),
                 selected: showPrevious,
                 onTap: () => setState(() => showPrevious = true),
               ),

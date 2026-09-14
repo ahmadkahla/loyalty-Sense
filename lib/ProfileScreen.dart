@@ -1,6 +1,8 @@
 // import 'package:flutter/material.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
+// import '../complete_profile_screen.dart';
+//
 // class ProfileScreen extends StatefulWidget {
 //   const ProfileScreen({super.key});
 //
@@ -18,6 +20,7 @@
 //   String _userName = '';
 //   String _email = '';
 //   String _birthDate = '';
+//   String _phone = '';
 //
 //   bool _isLoading = true;
 //
@@ -40,8 +43,29 @@
 //       _userName = prefs.getString('user_name') ?? '';
 //       _email = prefs.getString('user_email') ?? '';
 //       _birthDate = prefs.getString('user_birth_date') ?? '';
+//       _phone = prefs.getString('user_phone') ?? '';
 //       _isLoading = false;
 //     });
+//   }
+//
+//   // ============================================================
+//   // OPEN EDIT PROFILE
+//   // ============================================================
+//
+//   Future<void> _openEditProfile() async {
+//     await Navigator.of(context).push(
+//       MaterialPageRoute(
+//         builder: (_) =>
+//             CompleteProfileScreen(phoneNumber: _phone, isEditing: true),
+//       ),
+//     );
+//
+//     // بعد الرجوع → نعيد تحميل البيانات
+//     if (!mounted) return;
+//     setState(() {
+//       _isLoading = true;
+//     });
+//     _loadProfile();
 //   }
 //
 //   // ============================================================
@@ -114,7 +138,36 @@
 //                     ),
 //                   ),
 //
-//                   const SizedBox(height: 30),
+//                   const SizedBox(height: 20),
+//
+//                   // ==========================================
+//                   // EDIT BUTTON 👈 جديد
+//                   // ==========================================
+//                   SizedBox(
+//                     width: double.infinity,
+//                     height: 50,
+//                     child: ElevatedButton.icon(
+//                       onPressed: _openEditProfile,
+//                       icon: const Icon(Icons.edit_outlined, size: 19),
+//                       label: const Text(
+//                         'Edit Profile',
+//                         style: TextStyle(
+//                           fontSize: 15,
+//                           fontWeight: FontWeight.w700,
+//                         ),
+//                       ),
+//                       style: ElevatedButton.styleFrom(
+//                         elevation: 0,
+//                         backgroundColor: primaryColor,
+//                         foregroundColor: Colors.white,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(15),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//
+//                   const SizedBox(height: 24),
 //
 //                   // ==========================================
 //                   // DETAILS CARD
@@ -186,6 +239,26 @@
 //                           label: 'Date of birth',
 //                           value: _birthDate.isEmpty ? 'Not set' : _birthDate,
 //                         ),
+//
+//                         // ==========================================
+//                         // PHONE (يظهر فقط إذا موجود)
+//                         // ==========================================
+//                         if (_phone.isNotEmpty) ...[
+//                           const SizedBox(height: 16),
+//                           Divider(
+//                             height: 1,
+//                             color: isDark
+//                                 ? Colors.white.withOpacity(0.06)
+//                                 : Colors.grey.shade200,
+//                           ),
+//                           const SizedBox(height: 16),
+//
+//                           _ProfileRow(
+//                             icon: Icons.phone_outlined,
+//                             label: 'Phone',
+//                             value: _phone,
+//                           ),
+//                         ],
 //                       ],
 //                     ),
 //                   ),
@@ -278,7 +351,7 @@
 //     );
 //   }
 // }
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -341,7 +414,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
 
-    // بعد الرجوع → نعيد تحميل البيانات
     if (!mounted) return;
     setState(() {
       _isLoading = true;
@@ -364,8 +436,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'My Profile',
+        title: Text(
+          'My Profile'.tr(),
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
@@ -422,7 +494,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 20),
 
                   // ==========================================
-                  // EDIT BUTTON 👈 جديد
+                  // EDIT BUTTON
                   // ==========================================
                   SizedBox(
                     width: double.infinity,
@@ -430,8 +502,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ElevatedButton.icon(
                       onPressed: _openEditProfile,
                       icon: const Icon(Icons.edit_outlined, size: 19),
-                      label: const Text(
-                        'Edit Profile',
+                      label: Text(
+                        'Edit Profile'.tr(),
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -472,80 +544,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
-                        // ==========================================
-                        // NAME
-                        // ==========================================
-                        _ProfileRow(
-                          icon: Icons.person_outline_rounded,
-                          label: 'Name',
-                          value: _userName.isEmpty ? 'Not set' : _userName,
-                        ),
-
-                        const SizedBox(height: 16),
-                        Divider(
-                          height: 1,
-                          color: isDark
-                              ? Colors.white.withOpacity(0.06)
-                              : Colors.grey.shade200,
-                        ),
-                        const SizedBox(height: 16),
-
-                        // ==========================================
-                        // EMAIL (يظهر فقط إذا موجود)
-                        // ==========================================
-                        if (_email.isNotEmpty) ...[
-                          _ProfileRow(
-                            icon: Icons.email_outlined,
-                            label: 'Email',
-                            value: _email,
-                          ),
-
-                          const SizedBox(height: 16),
-                          Divider(
-                            height: 1,
-                            color: isDark
-                                ? Colors.white.withOpacity(0.06)
-                                : Colors.grey.shade200,
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-
-                        // ==========================================
-                        // BIRTH DATE
-                        // ==========================================
-                        _ProfileRow(
-                          icon: Icons.cake_outlined,
-                          label: 'Date of birth',
-                          value: _birthDate.isEmpty ? 'Not set' : _birthDate,
-                        ),
-
-                        // ==========================================
-                        // PHONE (يظهر فقط إذا موجود)
-                        // ==========================================
-                        if (_phone.isNotEmpty) ...[
-                          const SizedBox(height: 16),
-                          Divider(
-                            height: 1,
-                            color: isDark
-                                ? Colors.white.withOpacity(0.06)
-                                : Colors.grey.shade200,
-                          ),
-                          const SizedBox(height: 16),
-
-                          _ProfileRow(
-                            icon: Icons.phone_outlined,
-                            label: 'Phone',
-                            value: _phone,
-                          ),
-                        ],
-                      ],
-                    ),
+                    child: _buildDetailsList(isDark),
                   ),
                 ],
               ),
             ),
+    );
+  }
+
+  // ============================================================
+  // DETAILS LIST (ديناميكي — يعرض فقط الحقول الموجودة)
+  // ============================================================
+
+  Widget _buildDetailsList(bool isDark) {
+    final List<Widget> rows = [];
+
+    // 👤 الاسم (دايماً)
+    rows.add(
+      _ProfileRow(
+        icon: Icons.person_outline_rounded,
+        label: 'Name'.tr(),
+        value: _userName.isEmpty ? 'Not set' : _userName,
+      ),
+    );
+
+    // 📧 الإيميل (فقط إذا موجود)
+    if (_email.isNotEmpty) {
+      rows.add(
+        _ProfileRow(
+          icon: Icons.email_outlined,
+          label: 'Email'.tr(),
+          value: _email,
+        ),
+      );
+    }
+
+    // 🎂 تاريخ الميلاد (فقط إذا موجود)
+    if (_birthDate.isNotEmpty) {
+      rows.add(
+        _ProfileRow(
+          icon: Icons.cake_outlined,
+          label: 'Date of birth'.tr(),
+          value: _birthDate,
+        ),
+      );
+    }
+
+    // 📱 الهاتف (فقط إذا موجود)
+    if (_phone.isNotEmpty) {
+      rows.add(
+        _ProfileRow(
+          icon: Icons.phone_outlined,
+          label: 'Phone'.tr(),
+          value: _phone,
+        ),
+      );
+    }
+
+    // بناء الـ column مع Dividers
+    return Column(
+      children: [
+        for (int i = 0; i < rows.length; i++) ...[
+          if (i > 0) ...[
+            const SizedBox(height: 16),
+            Divider(
+              height: 1,
+              color: isDark
+                  ? Colors.white.withOpacity(0.06)
+                  : Colors.grey.shade200,
+            ),
+            const SizedBox(height: 16),
+          ],
+          rows[i],
+        ],
+      ],
     );
   }
 

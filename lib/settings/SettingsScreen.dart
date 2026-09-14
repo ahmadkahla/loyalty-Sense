@@ -601,14 +601,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'settings'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   title: Text(
+      //     'settings'.tr(),
+      //     style: const TextStyle(fontWeight: FontWeight.w600),
+      //   ),
+      // ),
       body: const SettingsContent(),
     );
   }
@@ -640,7 +640,7 @@ class SettingsContent extends StatelessWidget {
             // ============================================================
             _SettingTile(
               icon: Icons.person_outline_rounded,
-              title: 'my_profile'.tr(),
+              title: 'My Profile'.tr(),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -708,7 +708,7 @@ class SettingsContent extends StatelessWidget {
             // ),
             _SettingTile(
               icon: Icons.info_outline,
-              title: 'About US'.tr(),
+              title: 'about_us'.tr(),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -737,20 +737,19 @@ class SettingsContent extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 10),
+            // const SizedBox(height: 10),
+            //
+            // _sectionTitle('account_actions'.tr()),
+            //
+            // const SizedBox(height: 5),
 
-            _sectionTitle('account_actions'.tr()),
-
-            const SizedBox(height: 5),
-
-            _SettingTile(
-              icon: Icons.login_outlined,
-              title: 'login'.tr(),
-              onTap: () {
-                _showComingSoon(context, 'login'.tr());
-              },
-            ),
-
+            // _SettingTile(
+            //   icon: Icons.login_outlined,
+            //   title: 'login'.tr(),
+            //   onTap: () {
+            //     _showComingSoon(context, 'login'.tr());
+            //   },
+            // ),
             const SizedBox(height: 20),
           ],
         );

@@ -189,8 +189,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'SettingsScreen.dart';
-
 Future<void> showSettingsSidebar(BuildContext context) async {
   final isRTL = context.locale.languageCode == 'ar';
 
@@ -322,21 +320,21 @@ class _SettingsSidebarState extends State<_SettingsSidebar> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                Expanded(child: SettingsContent()),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 50, top: 4),
-                  child: Text(
-                    'SENSE Loyalty',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isDarkMode
-                          ? Colors.grey.shade400
-                          : Colors.grey.shade500,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 16),
+                // Expanded(child: SettingsContent()),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 50, top: 4),
+                //   child: Text(
+                //     'SENSE Loyalty',
+                //     style: TextStyle(
+                //       fontSize: 12,
+                //       color: isDarkMode
+                //           ? Colors.grey.shade400
+                //           : Colors.grey.shade500,
+                //       fontWeight: FontWeight.w500,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
