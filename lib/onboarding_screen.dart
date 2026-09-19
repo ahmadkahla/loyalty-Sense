@@ -546,10 +546,1201 @@
 //   }
 // }
 
+// import 'dart:ui';
+//
+// import 'package:easy_localization/easy_localization.dart';
+// import 'package:flutter/material.dart';
+//
+// import 'login/loginScreen.dart';
+//
+// class OnboardingScreen extends StatefulWidget {
+//   const OnboardingScreen({super.key});
+//
+//   @override
+//   State<OnboardingScreen> createState() => _OnboardingScreenState();
+// }
+//
+// class _OnboardingScreenState extends State<OnboardingScreen> {
+//   final PageController _pageController = PageController();
+//
+//   int _currentPage = 0;
+//
+//   // ============================================================
+//   // 🎨 COLORS HELPER (Light/Dark)
+//   // ============================================================
+//
+//   static const Color kSenseColor = Color(0xFF990056);
+//
+//   // Light
+//   static const Color lightBg = Color(0xFFF5F6FC);
+//   static const Color lightTitle = Color(0xFF171A2D);
+//   static const Color lightSubtitle = Color(0xFF697087);
+//   static const Color lightCaption = Color(0xFF303552);
+//   static const Color lightIndicatorInactive = Color(0xFFD1D5E4);
+//
+//   // Dark
+//   static const Color darkBg = Color(0xFF0F0F15);
+//   static const Color darkTitle = Colors.white;
+//   static const Color darkSubtitle = Color(0xFFB0B5C7);
+//   static const Color darkCaption = Color(0xFFD0D5E4);
+//   static const Color darkIndicatorInactive = Color(0xFF3A3A4A);
+//
+//   // ============================================================
+//   // ONBOARDING PAGES
+//   // ============================================================
+//
+//   final List<_OnboardingData> _pages = const [
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_1.png',
+//       title: 'Discover Your Favorites',
+//       description:
+//           'Explore a beautiful selection of beauty products, accessories and more, all in one place.',
+//     ),
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_2.png',
+//       title: 'Your Loyalty Matters',
+//       description:
+//           'Earn points with every purchase and get closer to exclusive rewards and special benefits.',
+//     ),
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_3.png',
+//       title: 'How It Works',
+//       description:
+//           'Shop, collect points and turn them into rewards, gifts and special offers you will love.',
+//     ),
+//   ];
+//
+//   // ============================================================
+//   // DISPOSE
+//   // ============================================================
+//
+//   @override
+//   void dispose() {
+//     _pageController.dispose();
+//     super.dispose();
+//   }
+//
+//   // ============================================================
+//   // NEXT
+//   // ============================================================
+//
+//   void _nextPage() {
+//     if (_currentPage < _pages.length - 1) {
+//       _pageController.nextPage(
+//         duration: const Duration(milliseconds: 500),
+//         curve: Curves.easeOutCubic,
+//       );
+//     } else {
+//       _finishOnboarding();
+//     }
+//   }
+//
+//   // ============================================================
+//   // SKIP
+//   // ============================================================
+//
+//   void _skip() {
+//     _finishOnboarding();
+//   }
+//
+//   // ============================================================
+//   // FINISH
+//   // ============================================================
+//
+//   void _finishOnboarding() {
+//     Navigator.of(context).pushReplacement(
+//       PageRouteBuilder(
+//         transitionDuration: const Duration(milliseconds: 600),
+//         reverseTransitionDuration: const Duration(milliseconds: 300),
+//         pageBuilder: (context, animation, secondaryAnimation) {
+//           return const LoginScreen();
+//         },
+//         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//           final curvedAnimation = CurvedAnimation(
+//             parent: animation,
+//             curve: Curves.easeOutCubic,
+//           );
+//
+//           return FadeTransition(
+//             opacity: curvedAnimation,
+//             child: SlideTransition(
+//               position: Tween<Offset>(
+//                 begin: const Offset(0.04, 0),
+//                 end: Offset.zero,
+//               ).animate(curvedAnimation),
+//               child: child,
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   // ============================================================
+//   // BUILD
+//   // ============================================================
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     final isDark = theme.brightness == Brightness.dark;
+//
+//     final backgroundColor = isDark ? darkBg : lightBg;
+//
+//     return Scaffold(
+//       backgroundColor: backgroundColor,
+//
+//       body: Stack(
+//         fit: StackFit.expand,
+//         children: [
+//           // ======================================================
+//           // PREMIUM BACKGROUND
+//           // ======================================================
+//           _OnboardingBackground(isDark: isDark),
+//
+//           // ======================================================
+//           // LARGE SENSE LOGO IN BACKGROUND
+//           // ======================================================
+//           Positioned(
+//             top: -50,
+//             left: -40,
+//             right: -40,
+//             child: IgnorePointer(
+//               child: Opacity(
+//                 opacity: isDark ? 0.10 : 0.055,
+//                 child: Image.asset(
+//                   'assets/7767de42-0a90-4833-add1-bc5a2a20b6f2.png',
+//                   height: 350,
+//                   fit: BoxFit.contain,
+//                 ),
+//               ),
+//             ),
+//           ),
+//
+//           // ======================================================
+//           // MAIN CONTENT
+//           // ======================================================
+//           SafeArea(
+//             child: Column(
+//               children: [
+//                 // ==================================================
+//                 // TOP BAR
+//                 // ==================================================
+//                 Padding(
+//                   padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       // ------------------------------------------------
+//                       // SENSE
+//                       // ------------------------------------------------
+//                       Text(
+//                         'SENSE'.tr(),
+//                         style: TextStyle(
+//                           fontSize: 16,
+//                           fontWeight: FontWeight.w800,
+//                           letterSpacing: 2.5,
+//                           color: isDark ? darkCaption : lightCaption,
+//                         ),
+//                       ),
+//
+//                       // ------------------------------------------------
+//                       // SKIP
+//                       // ------------------------------------------------
+//                       AnimatedOpacity(
+//                         duration: const Duration(milliseconds: 250),
+//                         opacity: _currentPage == _pages.length - 1 ? 0 : 1,
+//                         child: IgnorePointer(
+//                           ignoring: _currentPage == _pages.length - 1,
+//                           child: TextButton(
+//                             onPressed: _skip,
+//                             child: Text(
+//                               'Skip'.tr(),
+//                               style: TextStyle(
+//                                 fontSize: 14,
+//                                 fontWeight: FontWeight.w600,
+//                                 color: isDark ? darkSubtitle : lightSubtitle,
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//
+//                 // ==================================================
+//                 // PAGES
+//                 // ==================================================
+//                 Expanded(
+//                   child: PageView.builder(
+//                     controller: _pageController,
+//                     itemCount: _pages.length,
+//                     physics: const BouncingScrollPhysics(),
+//                     onPageChanged: (index) {
+//                       setState(() {
+//                         _currentPage = index;
+//                       });
+//                     },
+//                     itemBuilder: (context, index) {
+//                       return _buildPage(_pages[index], isDark);
+//                     },
+//                   ),
+//                 ),
+//
+//                 // ==================================================
+//                 // BOTTOM CONTROLS
+//                 // ==================================================
+//                 Padding(
+//                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+//                   child: Row(
+//                     children: [
+//                       // ==================================================
+//                       // PAGE INDICATORS
+//                       // ==================================================
+//                       Row(
+//                         children: List.generate(_pages.length, (index) {
+//                           final bool active = index == _currentPage;
+//
+//                           return AnimatedContainer(
+//                             duration: const Duration(milliseconds: 300),
+//                             curve: Curves.easeOut,
+//
+//                             width: active ? 26 : 7,
+//
+//                             height: 7,
+//
+//                             margin: const EdgeInsets.only(right: 6),
+//
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(20),
+//
+//                               color: active
+//                                   ? kSenseColor
+//                                   : (isDark
+//                                         ? darkIndicatorInactive
+//                                         : lightIndicatorInactive),
+//                             ),
+//                           );
+//                         }),
+//                       ),
+//
+//                       const Spacer(),
+//
+//                       // ==================================================
+//                       // NEXT BUTTON
+//                       // ==================================================
+//                       Container(
+//                         height: 54,
+//
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(18),
+//
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: kSenseColor.withOpacity(0.20),
+//                               blurRadius: 20,
+//                               offset: const Offset(0, 8),
+//                             ),
+//                           ],
+//                         ),
+//
+//                         child: ElevatedButton(
+//                           onPressed: _nextPage,
+//
+//                           style: ElevatedButton.styleFrom(
+//                             elevation: 0,
+//
+//                             backgroundColor: kSenseColor,
+//
+//                             foregroundColor: Colors.white,
+//
+//                             padding: const EdgeInsets.symmetric(horizontal: 21),
+//
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(18),
+//                             ),
+//                           ),
+//
+//                           child: Row(
+//                             mainAxisSize: MainAxisSize.min,
+//                             children: [
+//                               Text(
+//                                 _currentPage == _pages.length - 1
+//                                     ? 'Get_Started'.tr()
+//                                     : 'Next'.tr(),
+//
+//                                 style: const TextStyle(
+//                                   fontSize: 14,
+//                                   fontWeight: FontWeight.w700,
+//                                 ),
+//                               ),
+//
+//                               const SizedBox(width: 8),
+//
+//                               const Icon(Icons.arrow_forward_rounded, size: 20),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   // ============================================================
+//   // SINGLE ONBOARDING PAGE
+//   // ============================================================
+//
+//   Widget _buildPage(_OnboardingData data, bool isDark) {
+//     return LayoutBuilder(
+//       builder: (context, constraints) {
+//         final double imageHeight = constraints.maxHeight * 0.50;
+//
+//         return Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 24),
+//
+//           child: Column(
+//             children: [
+//               const Spacer(),
+//
+//               // ==================================================
+//               // IMAGE CARD
+//               // ==================================================
+//               Container(
+//                 height: imageHeight.clamp(270.0, 420.0),
+//
+//                 width: double.infinity,
+//
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(34),
+//
+//                   // 👈 اللون يتغير حسب الوضع
+//                   color: isDark
+//                       ? Colors.white.withOpacity(0.05)
+//                       : Colors.white.withOpacity(0.30),
+//
+//                   border: Border.all(
+//                     // 👈 الحدود كذلك
+//                     color: isDark
+//                         ? Colors.white.withOpacity(0.10)
+//                         : Colors.white.withOpacity(0.75),
+//                     width: 1.2,
+//                   ),
+//
+//                   boxShadow: [
+//                     BoxShadow(
+//                       color: Colors.black.withOpacity(isDark ? 0.30 : 0.045),
+//                       blurRadius: 35,
+//                       offset: const Offset(0, 18),
+//                     ),
+//                   ],
+//                 ),
+//
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.circular(34),
+//
+//                   child: Image.asset(
+//                     data.image,
+//
+//                     fit: BoxFit.cover,
+//
+//                     errorBuilder: (context, error, stackTrace) {
+//                       return Center(
+//                         child: Icon(
+//                           Icons.image_not_supported_outlined,
+//                           size: 55,
+//                           color: isDark
+//                               ? Colors.white30
+//                               : const Color(0xFF8C92A6),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//
+//               const SizedBox(height: 28),
+//
+//               // ==================================================
+//               // TITLE
+//               // ==================================================
+//               Text(
+//                 data.title,
+//
+//                 textAlign: TextAlign.center,
+//
+//                 style: TextStyle(
+//                   fontSize: 27,
+//                   fontWeight: FontWeight.w800,
+//                   letterSpacing: -0.6,
+//                   // 👈 اللون يتغير حسب الوضع
+//                   color: isDark ? darkTitle : lightTitle,
+//                 ),
+//               ),
+//
+//               const SizedBox(height: 11),
+//
+//               // ==================================================
+//               // DESCRIPTION
+//               // ==================================================
+//               ConstrainedBox(
+//                 constraints: const BoxConstraints(maxWidth: 365),
+//
+//                 child: Text(
+//                   data.description,
+//
+//                   textAlign: TextAlign.center,
+//
+//                   style: TextStyle(
+//                     fontSize: 14.5,
+//                     height: 1.55,
+//                     fontWeight: FontWeight.w500,
+//                     // 👈 اللون يتغير حسب الوضع
+//                     color: isDark ? darkSubtitle : lightSubtitle,
+//                   ),
+//                 ),
+//               ),
+//
+//               const Spacer(),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+//
+// // =================================================================
+// // ONBOARDING DATA
+// // =================================================================
+//
+// class _OnboardingData {
+//   final String image;
+//   final String title;
+//   final String description;
+//
+//   const _OnboardingData({
+//     required this.image,
+//     required this.title,
+//     required this.description,
+//   });
+// }
+//
+// // =================================================================
+// // PREMIUM BACKGROUND (Light/Dark)
+// // =================================================================
+//
+// class _OnboardingBackground extends StatelessWidget {
+//   final bool isDark;
+//
+//   const _OnboardingBackground({required this.isDark});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         gradient: LinearGradient(
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//
+//           colors: isDark
+//               ? const [Color(0xFF0F0F15), Color(0xFF14101A), Color(0xFF1A0F1A)]
+//               : const [Color(0xFFF8F9FF), Color(0xFFF0F2FB), Color(0xFFF6FAF9)],
+//         ),
+//       ),
+//
+//       child: Stack(
+//         children: [
+//           // ======================================================
+//           // TOP RIGHT GLOW
+//           // ======================================================
+//           Positioned(
+//             top: -140,
+//             right: -120,
+//
+//             child: _GlowCircle(
+//               size: 360,
+//               color: isDark ? const Color(0xFF3A1A2E) : const Color(0xFFD0D5FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//
+//           // ======================================================
+//           // LEFT GLOW
+//           // ======================================================
+//           Positioned(
+//             top: 260,
+//             left: -190,
+//
+//             child: _GlowCircle(
+//               size: 360,
+//               color: isDark ? const Color(0xFF2A1525) : const Color(0xFFDDE8FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//
+//           // ======================================================
+//           // BOTTOM RIGHT GLOW
+//           // ======================================================
+//           Positioned(
+//             bottom: -170,
+//             right: -100,
+//
+//             child: _GlowCircle(
+//               size: 390,
+//               color: isDark ? const Color(0xFF2A1220) : const Color(0xFFD8F1E8),
+//               isDark: isDark,
+//             ),
+//           ),
+//
+//           // ======================================================
+//           // BOTTOM LEFT GLOW
+//           // ======================================================
+//           Positioned(
+//             bottom: -150,
+//             left: -130,
+//
+//             child: _GlowCircle(
+//               size: 300,
+//               color: isDark ? const Color(0xFF351828) : const Color(0xFFE8E0FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+// // =================================================================
+// // GLOW CIRCLE
+// // =================================================================
+//
+// class _GlowCircle extends StatelessWidget {
+//   final double size;
+//   final Color color;
+//   final bool isDark;
+//
+//   const _GlowCircle({
+//     required this.size,
+//     required this.color,
+//     required this.isDark,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ImageFiltered(
+//       imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+//
+//       child: Container(
+//         width: size,
+//         height: size,
+//
+//         decoration: BoxDecoration(
+//           shape: BoxShape.circle,
+//           // 👈 الأوباسيتي يفرق بين الفاتح والداكن
+//           color: color.withOpacity(isDark ? 0.55 : 0.42),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// import 'dart:ui';
+//
+// import 'package:easy_localization/easy_localization.dart';
+// import 'package:flutter/material.dart';
+//
+// import 'login/loginScreen.dart';
+//
+// class OnboardingScreen extends StatefulWidget {
+//   const OnboardingScreen({super.key});
+//
+//   @override
+//   State<OnboardingScreen> createState() => _OnboardingScreenState();
+// }
+//
+// class _OnboardingScreenState extends State<OnboardingScreen> {
+//   final PageController _pageController = PageController();
+//
+//   int _currentPage = 0;
+//
+//   // ============================================================
+//   // 🎨 COLORS
+//   // ============================================================
+//
+//   static const Color kSenseColor = Color(0xFF990056);
+//
+//   static const Color lightBg = Color(0xFFF5F6FC);
+//   static const Color lightTitle = Color(0xFF171A2D);
+//   static const Color lightSubtitle = Color(0xFF697087);
+//   static const Color lightCaption = Color(0xFF303552);
+//   static const Color lightIndicatorInactive = Color(0xFFD1D5E4);
+//
+//   static const Color darkBg = Color(0xFF0F0F15);
+//   static const Color darkTitle = Colors.white;
+//   static const Color darkSubtitle = Color(0xFFB0B5C7);
+//   static const Color darkCaption = Color(0xFFD0D5E4);
+//   static const Color darkIndicatorInactive = Color(0xFF3A3A4A);
+//
+//   // ============================================================
+//   // ONBOARDING PAGES
+//   // ============================================================
+//
+//   final List<_OnboardingData> _pages = const [
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_1.png',
+//       title: 'Discover Your Favorites',
+//       description:
+//           'Explore a beautiful selection of beauty products, accessories and more, all in one place.',
+//     ),
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_2.png',
+//       title: 'Your Loyalty Matters',
+//       description:
+//           'Earn points with every purchase and get closer to exclusive rewards and special benefits.',
+//     ),
+//     _OnboardingData(
+//       image: 'assets/onboarding/onboarding_3.png',
+//       title: 'How It Works',
+//       description:
+//           'Shop, collect points and turn them into rewards, gifts and special offers you will love.',
+//     ),
+//   ];
+//
+//   @override
+//   void dispose() {
+//     _pageController.dispose();
+//     super.dispose();
+//   }
+//
+//   void _nextPage() {
+//     if (_currentPage < _pages.length - 1) {
+//       _pageController.nextPage(
+//         duration: const Duration(milliseconds: 500),
+//         curve: Curves.easeOutCubic,
+//       );
+//     } else {
+//       _finishOnboarding();
+//     }
+//   }
+//
+//   void _skip() {
+//     _finishOnboarding();
+//   }
+//
+//   void _finishOnboarding() {
+//     Navigator.of(context).pushReplacement(
+//       PageRouteBuilder(
+//         transitionDuration: const Duration(milliseconds: 600),
+//         reverseTransitionDuration: const Duration(milliseconds: 300),
+//         pageBuilder: (context, animation, secondaryAnimation) {
+//           return const LoginScreen();
+//         },
+//         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//           final curvedAnimation = CurvedAnimation(
+//             parent: animation,
+//             curve: Curves.easeOutCubic,
+//           );
+//
+//           return FadeTransition(
+//             opacity: curvedAnimation,
+//             child: SlideTransition(
+//               position: Tween<Offset>(
+//                 begin: const Offset(0.04, 0),
+//                 end: Offset.zero,
+//               ).animate(curvedAnimation),
+//               child: child,
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     final isDark = theme.brightness == Brightness.dark;
+//
+//     final backgroundColor = isDark ? darkBg : lightBg;
+//
+//     // ✅ الحصول على أبعاد الشاشة
+//     final size = MediaQuery.of(context).size;
+//     final screenHeight = size.height;
+//     final screenWidth = size.width;
+//
+//     // ✅ تحجيم ذكي بناءً على ارتفاع الشاشة
+//     // المرجع: iPhone 14 Pro (ارتفاع ~852)
+//     final scale = (screenHeight / 852).clamp(0.75, 1.15);
+//
+//     // ✅ تحجيم إضافي للشاشات الصغيرة جداً
+//     final isSmallScreen = screenHeight < 700;
+//     final isTablet = screenWidth > 600;
+//
+//     return Scaffold(
+//       backgroundColor: backgroundColor,
+//       body: Stack(
+//         fit: StackFit.expand,
+//         children: [
+//           _OnboardingBackground(isDark: isDark),
+//
+//           // ✅ شعار الخلفية — حجم متكيّف
+//           Positioned(
+//             top: -50,
+//             left: -40,
+//             right: -40,
+//             child: IgnorePointer(
+//               child: Opacity(
+//                 opacity: isDark ? 0.10 : 0.055,
+//                 child: Image.asset(
+//                   'assets/7767de42-0a90-4833-add1-bc5a2a20b6f2.png',
+//                   height: isTablet ? 450 : 350 * scale,
+//                   fit: BoxFit.contain,
+//                 ),
+//               ),
+//             ),
+//           ),
+//
+//           SafeArea(
+//             child: Column(
+//               children: [
+//                 // ==================================================
+//                 // TOP BAR
+//                 // ==================================================
+//                 Padding(
+//                   padding: EdgeInsets.fromLTRB(24, 12 * scale, 24, 0),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Text(
+//                         'SENSE'.tr(),
+//                         style: TextStyle(
+//                           fontSize: 16 * scale,
+//                           fontWeight: FontWeight.w800,
+//                           letterSpacing: 2.5,
+//                           color: isDark ? darkCaption : lightCaption,
+//                         ),
+//                       ),
+//
+//                       AnimatedOpacity(
+//                         duration: const Duration(milliseconds: 250),
+//                         opacity: _currentPage == _pages.length - 1 ? 0 : 1,
+//                         child: IgnorePointer(
+//                           ignoring: _currentPage == _pages.length - 1,
+//                           child: TextButton(
+//                             onPressed: _skip,
+//                             child: Text(
+//                               'Skip'.tr(),
+//                               style: TextStyle(
+//                                 fontSize: 14 * scale,
+//                                 fontWeight: FontWeight.w600,
+//                                 color: isDark ? darkSubtitle : lightSubtitle,
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//
+//                 // ==================================================
+//                 // PAGES
+//                 // ==================================================
+//                 Expanded(
+//                   child: PageView.builder(
+//                     controller: _pageController,
+//                     itemCount: _pages.length,
+//                     physics: const BouncingScrollPhysics(),
+//                     onPageChanged: (index) {
+//                       setState(() => _currentPage = index);
+//                     },
+//                     itemBuilder: (context, index) {
+//                       return _buildPage(
+//                         _pages[index],
+//                         isDark,
+//                         scale: scale,
+//                         isSmallScreen: isSmallScreen,
+//                         isTablet: isTablet,
+//                       );
+//                     },
+//                   ),
+//                 ),
+//
+//                 // ==================================================
+//                 // BOTTOM CONTROLS
+//                 // ==================================================
+//                 Padding(
+//                   padding: EdgeInsets.fromLTRB(24, 0, 24, 24 * scale),
+//                   child: Row(
+//                     children: [
+//                       // ------------------------------
+//                       // PAGE INDICATORS
+//                       // ------------------------------
+//                       Row(
+//                         children: List.generate(_pages.length, (index) {
+//                           final bool active = index == _currentPage;
+//
+//                           return AnimatedContainer(
+//                             duration: const Duration(milliseconds: 300),
+//                             curve: Curves.easeOut,
+//                             width: active ? 26 * scale : 7 * scale,
+//                             height: 7 * scale,
+//                             margin: EdgeInsets.only(right: 6 * scale),
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(20),
+//                               color: active
+//                                   ? kSenseColor
+//                                   : (isDark
+//                                         ? darkIndicatorInactive
+//                                         : lightIndicatorInactive),
+//                             ),
+//                           );
+//                         }),
+//                       ),
+//
+//                       const Spacer(),
+//
+//                       // ------------------------------
+//                       // NEXT BUTTON
+//                       // ------------------------------
+//                       Container(
+//                         height: (isSmallScreen ? 48 : 54) * scale,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(18),
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: kSenseColor.withOpacity(0.20),
+//                               blurRadius: 20,
+//                               offset: const Offset(0, 8),
+//                             ),
+//                           ],
+//                         ),
+//                         child: ElevatedButton(
+//                           onPressed: _nextPage,
+//                           style: ElevatedButton.styleFrom(
+//                             elevation: 0,
+//                             backgroundColor: kSenseColor,
+//                             foregroundColor: Colors.white,
+//                             padding: EdgeInsets.symmetric(
+//                               horizontal: 21 * scale,
+//                             ),
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(18),
+//                             ),
+//                           ),
+//                           child: Row(
+//                             mainAxisSize: MainAxisSize.min,
+//                             children: [
+//                               Text(
+//                                 _currentPage == _pages.length - 1
+//                                     ? 'Get_Started'.tr()
+//                                     : 'Next'.tr(),
+//                                 style: TextStyle(
+//                                   fontSize: 14 * scale,
+//                                   fontWeight: FontWeight.w700,
+//                                 ),
+//                               ),
+//                               SizedBox(width: 8 * scale),
+//                               Icon(
+//                                 Icons.arrow_forward_rounded,
+//                                 size: 20 * scale,
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   // ============================================================
+//   // SINGLE ONBOARDING PAGE — Responsive
+//   // ============================================================
+//
+//   Widget _buildPage(
+//     _OnboardingData data,
+//     bool isDark, {
+//     required double scale,
+//     required bool isSmallScreen,
+//     required bool isTablet,
+//   }) {
+//     return LayoutBuilder(
+//       builder: (context, constraints) {
+//         // ✅ ارتفاع الصورة متكيّف
+//         final double imageHeight = isSmallScreen
+//             ? constraints.maxHeight * 0.42
+//             : isTablet
+//             ? constraints.maxHeight * 0.55
+//             : constraints.maxHeight * 0.48;
+//
+//         // ✅ أحجام الخطوط متكيّفة
+//         final double titleSize = isSmallScreen
+//             ? 22
+//             : isTablet
+//             ? 34
+//             : 27 * scale;
+//
+//         final double descSize = isSmallScreen
+//             ? 13
+//             : isTablet
+//             ? 17
+//             : 14.5 * scale;
+//
+//         // ✅ المسافات متكيّفة
+//         final double gapAfterImage = isSmallScreen
+//             ? 18
+//             : isTablet
+//             ? 36
+//             : 28 * scale;
+//
+//         final double gapAfterTitle = isSmallScreen
+//             ? 8
+//             : isTablet
+//             ? 16
+//             : 11 * scale;
+//
+//         final double horizontalPadding = isTablet ? 80 : 24;
+//
+//         // ✅ إذا الشاشة صغيرة جداً، اجعل المحتوى قابلاً للتمرير
+//         final bool needsScroll = isSmallScreen || constraints.maxHeight < 500;
+//
+//         final pageContent = Padding(
+//           padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               // ==================================================
+//               // IMAGE CARD
+//               // ==================================================
+//               Container(
+//                 height: imageHeight.clamp(180.0, 420.0),
+//                 width: double.infinity,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(34),
+//                   color: isDark
+//                       ? Colors.white.withOpacity(0.05)
+//                       : Colors.white.withOpacity(0.30),
+//                   border: Border.all(
+//                     color: isDark
+//                         ? Colors.white.withOpacity(0.10)
+//                         : Colors.white.withOpacity(0.75),
+//                     width: 1.2,
+//                   ),
+//                   boxShadow: [
+//                     BoxShadow(
+//                       color: Colors.black.withOpacity(isDark ? 0.30 : 0.045),
+//                       blurRadius: 35,
+//                       offset: const Offset(0, 18),
+//                     ),
+//                   ],
+//                 ),
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.circular(34),
+//                   child: Image.asset(
+//                     data.image,
+//                     fit: BoxFit.cover,
+//                     errorBuilder: (context, error, stackTrace) {
+//                       return Center(
+//                         child: Icon(
+//                           Icons.image_not_supported_outlined,
+//                           size: 55,
+//                           color: isDark
+//                               ? Colors.white30
+//                               : const Color(0xFF8C92A6),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//
+//               SizedBox(height: gapAfterImage),
+//
+//               // ==================================================
+//               // TITLE
+//               // ==================================================
+//               Text(
+//                 data.title,
+//                 textAlign: TextAlign.center,
+//                 maxLines: 2,
+//                 overflow: TextOverflow.ellipsis,
+//                 style: TextStyle(
+//                   fontSize: titleSize,
+//                   fontWeight: FontWeight.w800,
+//                   letterSpacing: -0.6,
+//                   height: 1.15,
+//                   color: isDark ? darkTitle : lightTitle,
+//                 ),
+//               ),
+//
+//               SizedBox(height: gapAfterTitle),
+//
+//               // ==================================================
+//               // DESCRIPTION
+//               // ==================================================
+//               ConstrainedBox(
+//                 constraints: BoxConstraints(maxWidth: isTablet ? 500 : 365),
+//                 child: Text(
+//                   data.description,
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     fontSize: descSize,
+//                     height: 1.55,
+//                     fontWeight: FontWeight.w500,
+//                     color: isDark ? darkSubtitle : lightSubtitle,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//
+//         // ✅ الشاشات الصغيرة: تمرير بدل overflow
+//         if (needsScroll) {
+//           return SingleChildScrollView(
+//             physics: const ClampingScrollPhysics(),
+//             child: ConstrainedBox(
+//               constraints: BoxConstraints(minHeight: constraints.maxHeight),
+//               child: Center(child: pageContent),
+//             ),
+//           );
+//         }
+//
+//         return Center(child: pageContent);
+//       },
+//     );
+//   }
+// }
+//
+// // =================================================================
+// // ONBOARDING DATA
+// // =================================================================
+//
+// class _OnboardingData {
+//   final String image;
+//   final String title;
+//   final String description;
+//
+//   const _OnboardingData({
+//     required this.image,
+//     required this.title,
+//     required this.description,
+//   });
+// }
+//
+// // =================================================================
+// // PREMIUM BACKGROUND
+// // =================================================================
+//
+// class _OnboardingBackground extends StatelessWidget {
+//   final bool isDark;
+//
+//   const _OnboardingBackground({required this.isDark});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         gradient: LinearGradient(
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//           colors: isDark
+//               ? const [Color(0xFF0F0F15), Color(0xFF14101A), Color(0xFF1A0F1A)]
+//               : const [Color(0xFFF8F9FF), Color(0xFFF0F2FB), Color(0xFFF6FAF9)],
+//         ),
+//       ),
+//       child: Stack(
+//         children: [
+//           Positioned(
+//             top: -140,
+//             right: -120,
+//             child: _GlowCircle(
+//               size: 360,
+//               color: isDark ? const Color(0xFF3A1A2E) : const Color(0xFFD0D5FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//           Positioned(
+//             top: 260,
+//             left: -190,
+//             child: _GlowCircle(
+//               size: 360,
+//               color: isDark ? const Color(0xFF2A1525) : const Color(0xFFDDE8FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//           Positioned(
+//             bottom: -170,
+//             right: -100,
+//             child: _GlowCircle(
+//               size: 390,
+//               color: isDark ? const Color(0xFF2A1220) : const Color(0xFFD8F1E8),
+//               isDark: isDark,
+//             ),
+//           ),
+//           Positioned(
+//             bottom: -150,
+//             left: -130,
+//             child: _GlowCircle(
+//               size: 300,
+//               color: isDark ? const Color(0xFF351828) : const Color(0xFFE8E0FF),
+//               isDark: isDark,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+// class _GlowCircle extends StatelessWidget {
+//   final double size;
+//   final Color color;
+//   final bool isDark;
+//
+//   const _GlowCircle({
+//     required this.size,
+//     required this.color,
+//     required this.isDark,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ImageFiltered(
+//       imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+//       child: Container(
+//         width: size,
+//         height: size,
+//         decoration: BoxDecoration(
+//           shape: BoxShape.circle,
+//           color: color.withOpacity(isDark ? 0.55 : 0.42),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'login/loginScreen.dart';
 
@@ -648,6 +1839,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // ============================================================
 
   void _finishOnboarding() {
+    // ✅ حفظ إن المستخدم شاف الـ Onboarding
+    GetStorage().write('has_seen_onboarding', true);
+
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 600),
@@ -687,6 +1881,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     final backgroundColor = isDark ? darkBg : lightBg;
 
+    // ✅ أبعاد الشاشة للتحجيم الديناميكي
+    final size = MediaQuery.of(context).size;
+    final screenHeight = size.height;
+    final screenWidth = size.width;
+
+    // ✅ معامل التحجيم (المرجع: iPhone 14 Pro بارتفاع 852)
+    final scale = (screenHeight / 852).clamp(0.75, 1.15);
+
+    // ✅ تصنيف الأجهزة
+    final isSmallScreen = screenHeight < 700;
+    final isTablet = screenWidth > 600;
+
     return Scaffold(
       backgroundColor: backgroundColor,
 
@@ -710,7 +1916,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 opacity: isDark ? 0.10 : 0.055,
                 child: Image.asset(
                   'assets/7767de42-0a90-4833-add1-bc5a2a20b6f2.png',
-                  height: 350,
+                  height: isTablet ? 450 : 350 * scale,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -727,7 +1933,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 // TOP BAR
                 // ==================================================
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+                  padding: EdgeInsets.fromLTRB(24, 12 * scale, 24, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -737,7 +1943,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         'SENSE'.tr(),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16 * scale,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 2.5,
                           color: isDark ? darkCaption : lightCaption,
@@ -757,7 +1963,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             child: Text(
                               'Skip'.tr(),
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14 * scale,
                                 fontWeight: FontWeight.w600,
                                 color: isDark ? darkSubtitle : lightSubtitle,
                               ),
@@ -783,7 +1989,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       });
                     },
                     itemBuilder: (context, index) {
-                      return _buildPage(_pages[index], isDark);
+                      return _buildPage(
+                        _pages[index],
+                        isDark,
+                        scale: scale,
+                        isSmallScreen: isSmallScreen,
+                        isTablet: isTablet,
+                      );
                     },
                   ),
                 ),
@@ -792,7 +2004,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 // BOTTOM CONTROLS
                 // ==================================================
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                  padding: EdgeInsets.fromLTRB(24, 0, 24, 24 * scale),
                   child: Row(
                     children: [
                       // ==================================================
@@ -806,11 +2018,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeOut,
 
-                            width: active ? 26 : 7,
+                            width: active ? 26 * scale : 7 * scale,
 
-                            height: 7,
+                            height: 7 * scale,
 
-                            margin: const EdgeInsets.only(right: 6),
+                            margin: EdgeInsets.only(right: 6 * scale),
 
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -831,7 +2043,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       // NEXT BUTTON
                       // ==================================================
                       Container(
-                        height: 54,
+                        height: (isSmallScreen ? 48 : 54) * scale,
 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),
@@ -855,7 +2067,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                             foregroundColor: Colors.white,
 
-                            padding: const EdgeInsets.symmetric(horizontal: 21),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 21 * scale,
+                            ),
 
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -870,15 +2084,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     ? 'Get_Started'.tr()
                                     : 'Next'.tr(),
 
-                                style: const TextStyle(
-                                  fontSize: 14,
+                                style: TextStyle(
+                                  fontSize: 14 * scale,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
 
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8 * scale),
 
-                              const Icon(Icons.arrow_forward_rounded, size: 20),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                size: 20 * scale,
+                              ),
                             ],
                           ),
                         ),
@@ -895,26 +2112,66 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   // ============================================================
-  // SINGLE ONBOARDING PAGE
+  // SINGLE ONBOARDING PAGE — Responsive
   // ============================================================
 
-  Widget _buildPage(_OnboardingData data, bool isDark) {
+  Widget _buildPage(
+    _OnboardingData data,
+    bool isDark, {
+    required double scale,
+    required bool isSmallScreen,
+    required bool isTablet,
+  }) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double imageHeight = constraints.maxHeight * 0.50;
+        // ✅ ارتفاع الصورة متكيّف
+        final double imageHeight = isSmallScreen
+            ? constraints.maxHeight * 0.42
+            : isTablet
+            ? constraints.maxHeight * 0.55
+            : constraints.maxHeight * 0.48;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+        // ✅ أحجام الخطوط متكيّفة
+        final double titleSize = isSmallScreen
+            ? 22
+            : isTablet
+            ? 34
+            : 27 * scale;
 
+        final double descSize = isSmallScreen
+            ? 13
+            : isTablet
+            ? 17
+            : 14.5 * scale;
+
+        // ✅ المسافات متكيّفة
+        final double gapAfterImage = isSmallScreen
+            ? 18
+            : isTablet
+            ? 36
+            : 28 * scale;
+
+        final double gapAfterTitle = isSmallScreen
+            ? 8
+            : isTablet
+            ? 16
+            : 11 * scale;
+
+        final double horizontalPadding = isTablet ? 80 : 24;
+
+        // ✅ إذا الشاشة صغيرة جداً، اجعل المحتوى قابلاً للتمرير
+        final bool needsScroll = isSmallScreen || constraints.maxHeight < 500;
+
+        final pageContent = Padding(
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
-
               // ==================================================
               // IMAGE CARD
               // ==================================================
               Container(
-                height: imageHeight.clamp(270.0, 420.0),
+                height: imageHeight.clamp(180.0, 420.0),
 
                 width: double.infinity,
 
@@ -966,7 +2223,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
 
-              const SizedBox(height: 28),
+              SizedBox(height: gapAfterImage),
 
               // ==================================================
               // TITLE
@@ -976,22 +2233,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                 textAlign: TextAlign.center,
 
+                maxLines: 2,
+
+                overflow: TextOverflow.ellipsis,
+
                 style: TextStyle(
-                  fontSize: 27,
+                  fontSize: titleSize,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.6,
+                  height: 1.15,
                   // 👈 اللون يتغير حسب الوضع
                   color: isDark ? darkTitle : lightTitle,
                 ),
               ),
 
-              const SizedBox(height: 11),
+              SizedBox(height: gapAfterTitle),
 
               // ==================================================
               // DESCRIPTION
               // ==================================================
               ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 365),
+                constraints: BoxConstraints(maxWidth: isTablet ? 500 : 365),
 
                 child: Text(
                   data.description,
@@ -999,7 +2261,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
-                    fontSize: 14.5,
+                    fontSize: descSize,
                     height: 1.55,
                     fontWeight: FontWeight.w500,
                     // 👈 اللون يتغير حسب الوضع
@@ -1007,11 +2269,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-
-              const Spacer(),
             ],
           ),
         );
+
+        // ✅ الشاشات الصغيرة: تمرير بدل overflow
+        if (needsScroll) {
+          return SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Center(child: pageContent),
+            ),
+          );
+        }
+
+        return Center(child: pageContent);
       },
     );
   }

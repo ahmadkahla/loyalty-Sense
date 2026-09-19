@@ -65,7 +65,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
   CardSide _targetSide = CardSide.front;
   CardSide _backSide = CardSide.qr;
 
-  static const double cardHeight = 360;
+  static const double cardHeight = 300;
 
   @override
   void initState() {
@@ -172,6 +172,202 @@ class _LoyaltyCardState extends State<LoyaltyCard>
   // ==========================================================================
   // FRONT CARD
   // ==========================================================================
+  // Widget _buildFrontCard() {
+  //   final progress = widget.nextLevelPoints > 0
+  //       ? math.min(widget.points / widget.nextLevelPoints, 1.0)
+  //       : 0.0;
+  //   final pointsToNext = math.max(widget.nextLevelPoints - widget.points, 0);
+  //
+  //   return Container(
+  //     width: double.infinity,
+  //     height: cardHeight,
+  //     padding: const EdgeInsets.all(18),
+  //     decoration: BoxDecoration(
+  //       gradient: const LinearGradient(
+  //         colors: [LoyaltyCardColors.primary, LoyaltyCardColors.primaryLight],
+  //         begin: Alignment.topLeft,
+  //         end: Alignment.bottomRight,
+  //       ),
+  //       borderRadius: BorderRadius.circular(22),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: LoyaltyCardColors.primary.withOpacity(0.30),
+  //           blurRadius: 16,
+  //           offset: const Offset(0, 8),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         // CURRENT BALANCE
+  //         Row(
+  //           children: [
+  //             Container(
+  //               width: 26,
+  //               height: 26,
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white.withOpacity(0.20),
+  //                 borderRadius: BorderRadius.circular(6),
+  //               ),
+  //               child: const Icon(
+  //                 Icons.account_balance_wallet_rounded,
+  //                 color: Colors.white,
+  //                 size: 16,
+  //               ),
+  //             ),
+  //             const SizedBox(width: 10),
+  //             Text(
+  //               'Current_Balance'.tr(),
+  //               style: TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //             const Spacer(),
+  //             Text(
+  //               '${widget.moneyValue.toStringAsFixed(1)}\$',
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 22,
+  //                 fontWeight: FontWeight.w800,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //
+  //         const SizedBox(height: 14),
+  //
+  //         // POINTS
+  //         Row(
+  //           children: [
+  //             Container(
+  //               width: 26,
+  //               height: 26,
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white.withOpacity(0.20),
+  //                 shape: BoxShape.circle,
+  //               ),
+  //               child: const Icon(
+  //                 Icons.stars_rounded,
+  //                 color: Colors.white,
+  //                 size: 16,
+  //               ),
+  //             ),
+  //             const SizedBox(width: 10),
+  //             // Text(
+  //             //   '${widget.points} Points'.tr(),
+  //             //   style: const TextStyle(
+  //             //     color: Colors.white,
+  //             //     fontSize: 15,
+  //             //     fontWeight: FontWeight.w600,
+  //             //   ),
+  //             // ),
+  //             Text(
+  //               '${widget.points} ${"Points".tr()}',
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //
+  //         const SizedBox(height: 16),
+  //
+  //         // LEVEL
+  //         Row(
+  //           children: [
+  //             Text(
+  //               widget.cardLevel,
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 20,
+  //                 fontWeight: FontWeight.w800,
+  //               ),
+  //             ),
+  //             const Spacer(),
+  //             // Text(
+  //             //   '$pointsToNext points to next level'.tr(),
+  //             //   style: const TextStyle(
+  //             //     color: Colors.white,
+  //             //     fontSize: 13,
+  //             //     fontWeight: FontWeight.w600,
+  //             //   ),
+  //             // ),
+  //             Text(
+  //               '$pointsToNext ${"points to next level".tr()}',
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 13,
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //
+  //         const SizedBox(height: 8),
+  //
+  //         // PROGRESS
+  //         ClipRRect(
+  //           borderRadius: BorderRadius.circular(8),
+  //           child: LinearProgressIndicator(
+  //             value: progress,
+  //             backgroundColor: Colors.white.withOpacity(0.25),
+  //             valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+  //             minHeight: 8,
+  //           ),
+  //         ),
+  //
+  //         const SizedBox(height: 10),
+  //
+  //         Text(
+  //           "Keep going! You're closer to the next level.".tr(),
+  //           style: TextStyle(
+  //             color: Colors.white.withOpacity(0.90),
+  //             fontSize: 12,
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //
+  //         const Spacer(),
+  //
+  //         // QR + BARCODE
+  //         Row(
+  //           children: [
+  //             _buildCodeButton(
+  //               icon: Image.asset(
+  //                 'assets/icon/icons8-qr-code-50.png',
+  //                 width: 28,
+  //                 height: 28,
+  //                 fit: BoxFit.contain,
+  //               ),
+  //               label: 'QR Code',
+  //               onTap: () => _flipTo(CardSide.qr),
+  //             ),
+  //             const SizedBox(width: 10),
+  //             _buildCodeButton(
+  //               icon: Image.asset(
+  //                 'assets/icon/icons8-barcode-50.png',
+  //                 width: 28,
+  //                 height: 28,
+  //                 fit: BoxFit.contain,
+  //               ),
+  //               label: 'Barcode',
+  //               onTap: () => _flipTo(CardSide.barcode),
+  //             ),
+  //           ],
+  //         ),
+  //
+  //         const SizedBox(height: 10),
+  //
+  //         _buildDailyRewardButton(),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget _buildFrontCard() {
     final progress = widget.nextLevelPoints > 0
         ? math.min(widget.points / widget.nextLevelPoints, 1.0)
@@ -180,8 +376,9 @@ class _LoyaltyCardState extends State<LoyaltyCard>
 
     return Container(
       width: double.infinity,
-      height: cardHeight,
-      padding: const EdgeInsets.all(18),
+      // ✅ تم حذف height: cardHeight
+      // البطاقة الآن تأخذ حجمها من المحتوى تلقائياً
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [LoyaltyCardColors.primary, LoyaltyCardColors.primaryLight],
@@ -198,14 +395,15 @@ class _LoyaltyCardState extends State<LoyaltyCard>
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min, // ✅ مهم جداً
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // CURRENT BALANCE
           Row(
             children: [
               Container(
-                width: 26,
-                height: 26,
+                width: 24,
+                height: 24,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.20),
                   borderRadius: BorderRadius.circular(6),
@@ -213,15 +411,15 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 child: const Icon(
                   Icons.account_balance_wallet_rounded,
                   color: Colors.white,
-                  size: 16,
+                  size: 15,
                 ),
               ),
               const SizedBox(width: 10),
               Text(
                 'Current_Balance'.tr(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -230,21 +428,21 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 '${widget.moneyValue.toStringAsFixed(1)}\$',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
 
           // POINTS
           Row(
             children: [
               Container(
-                width: 26,
-                height: 26,
+                width: 24,
+                height: 24,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.20),
                   shape: BoxShape.circle,
@@ -252,30 +450,22 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 child: const Icon(
                   Icons.stars_rounded,
                   color: Colors.white,
-                  size: 16,
+                  size: 15,
                 ),
               ),
               const SizedBox(width: 10),
-              // Text(
-              //   '${widget.points} Points'.tr(),
-              //   style: const TextStyle(
-              //     color: Colors.white,
-              //     fontSize: 15,
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              // ),
               Text(
                 '${widget.points} ${"Points".tr()}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
           // LEVEL
           Row(
@@ -284,31 +474,23 @@ class _LoyaltyCardState extends State<LoyaltyCard>
                 widget.cardLevel,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const Spacer(),
-              // Text(
-              //   '$pointsToNext points to next level'.tr(),
-              //   style: const TextStyle(
-              //     color: Colors.white,
-              //     fontSize: 13,
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              // ),
               Text(
                 '$pointsToNext ${"points to next level".tr()}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
 
           // PROGRESS
           ClipRRect(
@@ -317,22 +499,23 @@ class _LoyaltyCardState extends State<LoyaltyCard>
               value: progress,
               backgroundColor: Colors.white.withOpacity(0.25),
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-              minHeight: 8,
+              minHeight: 7,
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
           Text(
             "Keep going! You're closer to the next level.".tr(),
             style: TextStyle(
               color: Colors.white.withOpacity(0.90),
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w500,
             ),
           ),
 
-          const Spacer(),
+          // ✅ تم حذف Spacer() هنا
+          const SizedBox(height: 12),
 
           // QR + BARCODE
           Row(
@@ -361,7 +544,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
             ],
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
           _buildDailyRewardButton(),
         ],

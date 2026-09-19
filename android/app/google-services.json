@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "804267451748",
+    "project_id": "loyalty-sense-bd63a",
+    "storage_bucket": "loyalty-sense-bd63a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804267451748:android:99420dac8d56237ec34671",
+        "android_client_info": {
+          "package_name": "com.AhmadKahla.loyalty"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCmwrst-9ivdf3ARmCoE_J5DV3X2-o4-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

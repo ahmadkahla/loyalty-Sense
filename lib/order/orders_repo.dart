@@ -443,41 +443,216 @@
 //   const Failure(this.error);
 // }
 
+// import 'package:dio/dio.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+//
+// import '../app_all/ApiClient.dart';
+// import 'order.dart';
+//
+// class OrdersRepo {
+//   OrdersRepo();
+//
+//   static final ApiClient _client = ApiClient();
+//
+//   // ============================================================
+//   // ✅ userId من SharedPreferences
+//   // ============================================================
+//   Future<String> _getUserId() async {
+//     final prefs = await SharedPreferences.getInstance();
+//
+//     final userId =
+//         prefs.getString('user_customer_no') ??
+//         prefs.getString('user_Customer_No') ??
+//         prefs.getString('user_id') ??
+//         prefs.getString('Customer_No') ??
+//         '';
+//
+//     debugPrint('👤 [OrdersRepo] userId = "$userId"');
+//     return userId;
+//   }
+//
+//   // ============================================================
+//   // ✅ fetchOrders — يجيب كل الأوردرات (فواتير + مرتجعات)
+//   // ============================================================
+//   Future<Result<List<Order>, Exception>> fetchOrders() async {
+//     try {
+//       final userId = await _getUserId();
+//
+//       if (userId.isEmpty) {
+//         return Failure(Exception('No customer ID found'));
+//       }
+//
+//       debugPrint('🌐 [fetchOrders] Requesting orders for: $userId');
+//
+//       final response = await _client.dio.get(
+//         '/GetInvPOSTransactionsCallCenterOrderHistory',
+//         queryParameters: {
+//           'Customer_No': userId,
+//           'TransId': -999,
+//           'TransStatus': -999,
+//         },
+//       );
+//
+//       debugPrint('📊 [fetchOrders] Status: ${response.statusCode}');
+//       debugPrint('📦 [fetchOrders] Data: ${response.data}');
+//
+//       // ✅ لو الـ API رجّع null → قائمة فاضية
+//       if (response.data == null) {
+//         debugPrint('⚠️ [fetchOrders] API returned NULL — no orders');
+//         return const Success([]);
+//       }
+//
+//       final rows = _extractRows(response.data);
+//
+//       debugPrint('✅ [fetchOrders] Parsed ${rows.length} orders');
+//
+//       return Success(rows.map(Order.fromJson).toList());
+//     } on DioException catch (e) {
+//       debugPrint('❌ [fetchOrders] DioException: ${e.message}');
+//       debugPrint('   Response: ${e.response?.data}');
+//       return Failure(Exception('Network error: ${e.message}'));
+//     } catch (e) {
+//       debugPrint('❌ [fetchOrders] Error: $e');
+//       return Failure(e is Exception ? e : Exception(e.toString()));
+//     }
+//   }
+//
+//   // ============================================================
+//   // ✅ fetchOrderDetails — يجيب تفاصيل أوردر واحد
+//   // ============================================================
+//   Future<Result<Order, Exception>> fetchOrderDetails(final int orderId) async {
+//     if (orderId <= 0) return Failure(Exception('Invalid order id'));
+//
+//     try {
+//       final userId = await _getUserId();
+//
+//       if (userId.isEmpty) {
+//         return Failure(Exception('No customer ID found'));
+//       }
+//
+//       debugPrint('🌐 [fetchOrderDetails] Requesting order: $orderId');
+//
+//       final response = await _client.dio.get(
+//         '/GetInvPOSTransactionsCallCenterOrderHistory',
+//         queryParameters: {
+//           'Customer_No': userId,
+//           'TransId': orderId,
+//           'TransStatus': -999,
+//         },
+//       );
+//
+//       debugPrint('📊 [fetchOrderDetails] Status: ${response.statusCode}');
+//       debugPrint('📦 [fetchOrderDetails] Data: ${response.data}');
+//
+//       if (response.data == null) {
+//         return Failure(Exception('No details found for order $orderId'));
+//       }
+//
+//       final data = response.data;
+//
+//       final Map<String, dynamic> headerMap;
+//       if (data is List && data.isNotEmpty) {
+//         headerMap = Map<String, dynamic>.from(data.first as Map);
+//       } else if (data is Map) {
+//         headerMap = Map<String, dynamic>.from(data);
+//       } else {
+//         return Failure(Exception('No details found for order $orderId'));
+//       }
+//
+//       return Success(Order.fromJson(headerMap));
+//     } on DioException catch (e) {
+//       debugPrint('❌ [fetchOrderDetails] DioException: ${e.message}');
+//       return Failure(Exception('Network error: ${e.message}'));
+//     } catch (e) {
+//       debugPrint('❌ [fetchOrderDetails] Error: $e');
+//       return Failure(e is Exception ? e : Exception(e.toString()));
+//     }
+//   }
+//
+//   // ============================================================
+//   // ✅ Helper — استخراج rows من أي شكل response
+//   // ============================================================
+//   List<Map<String, dynamic>> _extractRows(dynamic data) {
+//     if (data == null) return [];
+//
+//     // 1. List مباشرة
+//     if (data is List) {
+//       return data
+//           .whereType<Map>()
+//           .map((e) => Map<String, dynamic>.from(e))
+//           .toList();
+//     }
+//
+//     // 2. Map
+//     if (data is Map) {
+//       for (final key in ['data', 'result', 'items', 'orders', 'Data']) {
+//         final value = data[key];
+//         if (value is List) {
+//           return value
+//               .whereType<Map>()
+//               .map((e) => Map<String, dynamic>.from(e))
+//               .toList();
+//         }
+//       }
+//
+//       // 3. Map مباشرة (أوردر واحد)
+//       if (data.containsKey('Trans_ID') || data.containsKey('Trans_OrderNo')) {
+//         return [Map<String, dynamic>.from(data)];
+//       }
+//     }
+//
+//     return [];
+//   }
+// }
+//
+// // ============================================================
+// // Result / Success / Failure
+// // ============================================================
+// sealed class Result<T, E extends Exception> {
+//   const Result();
+//
+//   R fold<R>(R Function(T data) onSuccess, R Function(E error) onFailure) {
+//     final self = this;
+//     if (self is Success<T, E>) {
+//       return onSuccess(self.data);
+//     } else if (self is Failure<T, E>) {
+//       return onFailure(self.error);
+//     }
+//     throw StateError('Unknown Result type: $self');
+//   }
+// }
+//
+// class Success<T, E extends Exception> extends Result<T, E> {
+//   final T data;
+//   const Success(this.data);
+// }
+//
+// class Failure<T, E extends Exception> extends Result<T, E> {
+//   final E error;
+//   const Failure(this.error);
+// }
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_all/ApiClient.dart';
 import 'order.dart';
 
 class OrdersRepo {
-  OrdersRepo();
+  final String customerNo;
+
+  OrdersRepo({required this.customerNo});
 
   static final ApiClient _client = ApiClient();
 
   // ============================================================
-  // ✅ userId من SharedPreferences
+  // FETCH ORDERS
   // ============================================================
-  Future<String> _getUserId() async {
-    final prefs = await SharedPreferences.getInstance();
 
-    final userId =
-        prefs.getString('user_customer_no') ??
-        prefs.getString('user_Customer_No') ??
-        prefs.getString('user_id') ??
-        prefs.getString('Customer_No') ??
-        '';
-
-    debugPrint('👤 [OrdersRepo] userId = "$userId"');
-    return userId;
-  }
-
-  // ============================================================
-  // ✅ fetchOrders — يجيب كل الأوردرات (فواتير + مرتجعات)
-  // ============================================================
   Future<Result<List<Order>, Exception>> fetchOrders() async {
     try {
-      final userId = await _getUserId();
+      final userId = customerNo.trim();
 
       if (userId.isEmpty) {
         return Failure(Exception('No customer ID found'));
@@ -495,11 +670,12 @@ class OrdersRepo {
       );
 
       debugPrint('📊 [fetchOrders] Status: ${response.statusCode}');
+
       debugPrint('📦 [fetchOrders] Data: ${response.data}');
 
-      // ✅ لو الـ API رجّع null → قائمة فاضية
       if (response.data == null) {
-        debugPrint('⚠️ [fetchOrders] API returned NULL — no orders');
+        debugPrint('⚠️ [fetchOrders] API returned NULL');
+
         return const Success([]);
       }
 
@@ -510,22 +686,28 @@ class OrdersRepo {
       return Success(rows.map(Order.fromJson).toList());
     } on DioException catch (e) {
       debugPrint('❌ [fetchOrders] DioException: ${e.message}');
-      debugPrint('   Response: ${e.response?.data}');
+
+      debugPrint('Response: ${e.response?.data}');
+
       return Failure(Exception('Network error: ${e.message}'));
     } catch (e) {
       debugPrint('❌ [fetchOrders] Error: $e');
+
       return Failure(e is Exception ? e : Exception(e.toString()));
     }
   }
 
   // ============================================================
-  // ✅ fetchOrderDetails — يجيب تفاصيل أوردر واحد
+  // FETCH ORDER DETAILS
   // ============================================================
+
   Future<Result<Order, Exception>> fetchOrderDetails(final int orderId) async {
-    if (orderId <= 0) return Failure(Exception('Invalid order id'));
+    if (orderId <= 0) {
+      return Failure(Exception('Invalid order id'));
+    }
 
     try {
-      final userId = await _getUserId();
+      final userId = customerNo.trim();
 
       if (userId.isEmpty) {
         return Failure(Exception('No customer ID found'));
@@ -543,6 +725,7 @@ class OrdersRepo {
       );
 
       debugPrint('📊 [fetchOrderDetails] Status: ${response.statusCode}');
+
       debugPrint('📦 [fetchOrderDetails] Data: ${response.data}');
 
       if (response.data == null) {
@@ -552,6 +735,7 @@ class OrdersRepo {
       final data = response.data;
 
       final Map<String, dynamic> headerMap;
+
       if (data is List && data.isNotEmpty) {
         headerMap = Map<String, dynamic>.from(data.first as Map);
       } else if (data is Map) {
@@ -562,21 +746,19 @@ class OrdersRepo {
 
       return Success(Order.fromJson(headerMap));
     } on DioException catch (e) {
-      debugPrint('❌ [fetchOrderDetails] DioException: ${e.message}');
       return Failure(Exception('Network error: ${e.message}'));
     } catch (e) {
-      debugPrint('❌ [fetchOrderDetails] Error: $e');
       return Failure(e is Exception ? e : Exception(e.toString()));
     }
   }
 
   // ============================================================
-  // ✅ Helper — استخراج rows من أي شكل response
+  // EXTRACT ROWS
   // ============================================================
+
   List<Map<String, dynamic>> _extractRows(dynamic data) {
     if (data == null) return [];
 
-    // 1. List مباشرة
     if (data is List) {
       return data
           .whereType<Map>()
@@ -584,10 +766,10 @@ class OrdersRepo {
           .toList();
     }
 
-    // 2. Map
     if (data is Map) {
       for (final key in ['data', 'result', 'items', 'orders', 'Data']) {
         final value = data[key];
+
         if (value is List) {
           return value
               .whereType<Map>()
@@ -596,7 +778,6 @@ class OrdersRepo {
         }
       }
 
-      // 3. Map مباشرة (أوردر واحد)
       if (data.containsKey('Trans_ID') || data.containsKey('Trans_OrderNo')) {
         return [Map<String, dynamic>.from(data)];
       }
@@ -607,28 +788,35 @@ class OrdersRepo {
 }
 
 // ============================================================
-// Result / Success / Failure
+// RESULT
 // ============================================================
+
 sealed class Result<T, E extends Exception> {
   const Result();
 
   R fold<R>(R Function(T data) onSuccess, R Function(E error) onFailure) {
     final self = this;
+
     if (self is Success<T, E>) {
       return onSuccess(self.data);
-    } else if (self is Failure<T, E>) {
+    }
+
+    if (self is Failure<T, E>) {
       return onFailure(self.error);
     }
+
     throw StateError('Unknown Result type: $self');
   }
 }
 
 class Success<T, E extends Exception> extends Result<T, E> {
   final T data;
+
   const Success(this.data);
 }
 
 class Failure<T, E extends Exception> extends Result<T, E> {
   final E error;
+
   const Failure(this.error);
 }

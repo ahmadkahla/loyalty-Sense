@@ -75,11 +75,34 @@ class BranchesRepo {
         );
       }
 
+      // final jsonResponse = _apiClient.decodeResponse(response);
+      // final branches = _apiClient.parseList(
+      //   jsonResponse,
+      //   (json) => Branch.fromJson(json),
+      // );
       final jsonResponse = _apiClient.decodeResponse(response);
+
       final branches = _apiClient.parseList(
         jsonResponse,
         (json) => Branch.fromJson(json),
       );
+
+      print('================ BRANCH DEBUG ================');
+
+      for (final branch in branches) {
+        print('--------------------------------');
+        print('Branch: ${branch.displayName}');
+        print('Latitude: ${branch.latitude}');
+        print('Longitude: ${branch.longitude}');
+        print('Google Rate URL: ${branch.googleRateUrl}');
+        print('Phone 1: ${branch.phone1}');
+        print('Phone 2: ${branch.phone2}');
+        print('RAW DATA: ${branch.rawData}');
+      }
+
+      print('==============================================');
+
+      return Success(branches);
 
       return Success(branches);
     } on DioException catch (e) {
