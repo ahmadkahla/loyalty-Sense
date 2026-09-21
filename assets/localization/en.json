@@ -75,7 +75,104 @@
 "Email address (optional)": "Email address (optional)",
 "Your information is secure": "Your information is secure",
 "Save Changes": "Save Changes",
-"I have already received it.": "I have already received it."
+"I have already received it.": "I have already received it.",
+"Scan._Shop._Collect_points": "Scan. Shop. Collect points",
+"Scan your receipt and earn points with every purchase.": "Scan your receipt and earn points with every purchase.",
+"More points, more rewards.": "More points, more rewards.",
+"Collect points, get exclusive offers, and enjoy special rewards.": "Collect points, get exclusive offers, and enjoy special rewards.",
+"Our branches are always close to you.": "Our branches are always close to you.",
+"Discover all Sense branches and find one near you.": "Discover all Sense branches and find one near you.",
+"Makeup & More": "Makeup & More",
+"Established": "Established",
+"Branches": "Branches",
+"sense_about_us": "SENSE Makeup and More is a Jordanian company specializing in beauty and personal care, established in 2009. We offer a diverse selection of makeup, skincare, haircare, perfumes, and accessories, providing our customers with a complete shopping experience that meets their needs and keeps up with the latest beauty trends.\\n\\nToday, SENSE has 11 branches across Jordan. Through our physical stores and digital experience, we aim to provide a diverse product selection, exceptional service, and a seamless and convenient shopping experience for our customers.",
+"Contact Us": "Contact Us",
+"Website": "Website",
+"Who We Are": "Who We Are",
+"opens_at": "Opens",
+"closes_at": "Closes",
+"open_24_hours": "24 Hours",
+
+  "terms_subtitle": "SENSE Makeup & More",
+  "terms_last_updated": "Last updated: January 2025",
+  "terms_intro": "Please read the following terms and conditions carefully before using the SENSE app. By using the app, you agree to comply with these terms.",
+
+  "terms_1_title": "App Usage",
+  "terms_1_body": "SENSE app is a loyalty app designed for SENSE Makeup and More customers, allowing users to benefit from the points, rewards, and available offers program.",
+
+  "terms_2_title": "Account Creation",
+  "terms_2_body": "Creating an account requires providing some basic information such as name, date of birth, email, and phone number. The phone number is verified using an OTP verification code.",
+
+  "terms_3_title": "Loyalty & Points Program",
+  "terms_3_p1": "The customer earns points according to the loyalty program system approved by SENSE.",
+  "terms_3_p2": "Points can be used to benefit from available discounts and rewards.",
+  "terms_3_p3": "When points are used, the redeemed points are deducted from the customer's balance.",
+  "terms_3_p4": "There is currently no specific expiration date for points.",
+  "terms_3_p5": "The number of required points and the discount value are determined according to the loyalty program terms approved by SENSE.",
+
+  "terms_4_title": "Discounts & Rewards",
+  "terms_4_body": "Available discounts and rewards are subject to the terms of each offer or reward, and the discount value or number of required points may vary according to what SENSE determines.",
+
+  "terms_5_title": "Location",
+  "terms_5_body": "The app may request location access permission to provide services related to SENSE branches, such as finding nearby branches. Location permission remains optional.",
+
+  "terms_6_title": "Notifications",
+  "terms_6_body": "The app may request permission to send notifications to inform the user about offers and updates related to the loyalty program. The user can disable notifications from their device settings.",
+
+  "terms_7_title": "Account Responsibility",
+  "terms_7_body": "The user is responsible for maintaining the accuracy of their account data and not sharing their login credentials or verification code with others.",
+
+  "terms_8_title": "Program & Terms Modification",
+  "terms_8_body": "SENSE reserves the right to update or modify the loyalty program or app usage terms when needed. Updates will be displayed in the app or through appropriate means.",
+
+  "terms_9_title": "Contact",
+  "terms_9_body": "For inquiries related to the app or loyalty program, you can contact SENSE through the official communication channels available in the app.",
+
+
+
+
+  "privacy_intro": "This Privacy Policy explains how the SENSE Makeup and More app handles user data provided through the loyalty program app, and how it is used and protected.",
+
+  "privacy_1_title": "Data We Collect",
+  "privacy_1_body": "When creating an account, we may collect the following data: name, date of birth, phone number, and email. The phone number is used to verify the account via an OTP code. The email is part of the registration data and allows the user to earn points according to the loyalty program.",
+
+  "privacy_2_title": "Use of Date of Birth",
+  "privacy_2_body": "The date of birth is used to offer a reward or points to the customer on their birthday, as determined by SENSE, and a notification may be sent to the user when the reward is added.",
+
+  "privacy_3_title": "Use of Phone Number and Email",
+  "privacy_3_body": "The phone number may be used to send SMS messages related to offers, updates, and new interactions in the loyalty program. The email may be used in the future to send marketing offers and updates.",
+
+  "privacy_4_title": "Purchases and Points Data",
+  "privacy_4_body": "Information related to customer purchases is recorded, including the purchase value and invoice data available to the system, in order to manage the loyalty program and calculate points. SENSE retains account and points data as long as the account exists, in accordance with its approved data retention policies. Points are not lost merely because the invoice details retention period has ended, and they are deducted when used according to the loyalty program.",
+
+  "privacy_5_title": "Use of Location",
+  "privacy_5_body": "The app may use location permission to help the user reach SENSE branches and select the desired branch via Google Maps. Location permission is optional and the app can be used without granting it.",
+
+  "privacy_6_title": "External Services and Links",
+  "privacy_6_body": "The app may include links or integrations with external services, such as Google Maps and social media platforms. These services are subject to their own privacy policies.",
+
+  "privacy_7_title": "Use of Data",
+  "privacy_7_body": "SENSE uses user data to operate the account and loyalty program, manage points, and communicate with the user regarding offers, updates, new interactions, and services related to the app.",
+
+  "privacy_8_title": "Data Sharing",
+  "privacy_8_body": "SENSE does not sell customer data or share it with external parties for marketing purposes. Data may be accessed by authorized persons or entities at SENSE or the technical services necessary to operate the app, according to need and approved permissions.",
+
+  "privacy_9_title": "Data Protection",
+  "privacy_9_body": "SENSE stores and protects customer data in accordance with its approved technical and organizational procedures. The technical details related to encryption and protection are subject to the system settings and technical infrastructure used in the app.",
+
+  "privacy_10_title": "Data Retention",
+  "privacy_10_body": "Account data remains stored as long as the account exists, in accordance with SENSE's approved data retention policy. The exact retention period for each type of data is determined by the company's policies and regulations.",
+
+  "privacy_11_title": "Editing Account Data",
+  "privacy_11_body": "Account data is entered at registration, and there is currently no option to edit this data from within the app.",
+
+  "privacy_12_title": "Privacy Policy Updates",
+  "privacy_12_body": "The Privacy Policy may be updated when necessary to keep pace with app development or changes in how data is handled. The updated version will be made available to the user through the app or appropriate channels.",
+
+  "privacy_13_title": "Contact",
+  "privacy_13_body": "For inquiries related to privacy or user data, you can contact SENSE through the official communication channels available in the app."
+
+
 
 
 }

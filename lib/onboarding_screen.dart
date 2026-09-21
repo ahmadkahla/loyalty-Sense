@@ -1780,24 +1780,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // ONBOARDING PAGES
   // ============================================================
 
-  final List<_OnboardingData> _pages = const [
+  final List<_OnboardingData> _pages = [
     _OnboardingData(
-      image: 'assets/onboarding/onboarding_1.png',
-      title: 'Discover Your Favorites',
-      description:
-          'Explore a beautiful selection of beauty products, accessories and more, all in one place.',
+      image: 'assets/onboarding/WhatsApp Image 2026-09-19 at 15.23.50 (1).png',
+      title: 'Scan. Shop. Collect points'.tr(),
+      description: 'Scan your receipt and earn points with every purchase.'
+          .tr(),
     ),
     _OnboardingData(
-      image: 'assets/onboarding/onboarding_2.png',
-      title: 'Your Loyalty Matters',
+      image: 'assets/onboarding/WhatsApp Image 2026-09-19 at 15.23.50.2.png',
+      title: 'More points, more rewards.'.tr(),
       description:
-          'Earn points with every purchase and get closer to exclusive rewards and special benefits.',
+          'Collect points, get exclusive offers, and enjoy special rewards.'
+              .tr(),
     ),
     _OnboardingData(
-      image: 'assets/onboarding/onboarding_3.png',
-      title: 'How It Works',
-      description:
-          'Shop, collect points and turn them into rewards, gifts and special offers you will love.',
+      image: 'assets/onboarding/WhatsApp Image 2026-09-19 at 15.23.49 (1).png',
+      title: 'Our branches are always close to you.'.tr(),
+      description: 'Discover all Sense branches and find one near you.'.tr(),
     ),
   ];
 
@@ -1940,15 +1940,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       // ------------------------------------------------
                       // SENSE
                       // ------------------------------------------------
-                      Text(
-                        'SENSE'.tr(),
-                        style: TextStyle(
-                          fontSize: 16 * scale,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 2.5,
-                          color: isDark ? darkCaption : lightCaption,
-                        ),
-                      ),
+                      // Text(
+                      //   'SENSE'.tr(),
+                      //   style: TextStyle(
+                      //     fontSize: 16 * scale,
+                      //     fontWeight: FontWeight.w800,
+                      //     letterSpacing: 2.5,
+                      //     color: isDark ? darkCaption : lightCaption,
+                      //   ),
+                      // ),
 
                       // ------------------------------------------------
                       // SKIP

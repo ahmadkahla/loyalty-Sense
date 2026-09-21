@@ -65,7 +65,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
   CardSide _targetSide = CardSide.front;
   CardSide _backSide = CardSide.qr;
 
-  static const double cardHeight = 300;
+  static const double cardHeight = 330;
 
   @override
   void initState() {
@@ -543,8 +543,8 @@ class _LoyaltyCardState extends State<LoyaltyCard>
               ),
             ],
           ),
-
-          const SizedBox(height: 8),
+          // todo test now
+          const SizedBox(height: 12),
 
           _buildDailyRewardButton(),
         ],

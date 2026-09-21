@@ -1,850 +1,14 @@
-// import 'package:flutter/material.dart';
-//
-// import 'OrderDetailsScreen.dart';
-// import 'OrderModel.dart';
-//
-// class MyOrdersScreen extends StatefulWidget {
-//   const MyOrdersScreen({super.key});
-//
-//   static const Color primaryColor = Color(0xFFA5005A);
-//
-//   @override
-//   State<MyOrdersScreen> createState() => _MyOrdersScreenState();
-// }
-//
-// class _MyOrdersScreenState extends State<MyOrdersScreen> {
-//   bool showPrevious = false;
-//
-//   final List<OrderModel> orders = const [
-//     OrderModel(
-//       transactionNumber: '#1001',
-//       branchName: 'SENSE Abdali',
-//       date: 'Sep 7, 2026 • 10:30 AM',
-//       transactionType: 'Invoice',
-//       subtotal: 25.00,
-//       discount: 0.00,
-//       total: 25.00,
-//       barcode: '1001000001',
-//       items: [
-//         OrderItemModel(name: 'Product A', price: 10.00, quantity: 1),
-//         OrderItemModel(name: 'Product B', price: 7.50, quantity: 2),
-//       ],
-//     ),
-//     OrderModel(
-//       transactionNumber: '#1002',
-//       branchName: 'SENSE Mecca Mall',
-//       date: 'Sep 5, 2026 • 06:20 PM',
-//       transactionType: 'Return',
-//       subtotal: 10.00,
-//       discount: 0.00,
-//       total: 10.00,
-//       barcode: '1002000002',
-//       items: [OrderItemModel(name: 'Product C', price: 10.00, quantity: 1)],
-//     ),
-//     OrderModel(
-//       transactionNumber: '#1003',
-//       branchName: 'SENSE Abdali',
-//       date: 'Aug 30, 2026 • 02:15 PM',
-//       transactionType: 'Invoice',
-//       subtotal: 42.50,
-//       discount: 2.50,
-//       total: 40.00,
-//       barcode: '1003000003',
-//       items: [
-//         OrderItemModel(name: 'Product D', price: 20.00, quantity: 1),
-//         OrderItemModel(name: 'Product E', price: 7.50, quantity: 3),
-//       ],
-//     ),
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final theme = Theme.of(context);
-//     final isDark = theme.brightness == Brightness.dark;
-//
-//     final currentOrders = orders.where((order) {
-//       return order.transactionType == 'Invoice';
-//     }).toList();
-//
-//     final previousOrders = orders.where((order) {
-//       return order.transactionType == 'Return';
-//     }).toList();
-//
-//     final visibleOrders = showPrevious ? previousOrders : currentOrders;
-//
-//     // 👈 بدون Scaffold وبدون AppBar
-//     return Column(
-//       children: [
-//         const SizedBox(height: 4),
-//
-//         _buildSegmentedControl(context),
-//
-//         const SizedBox(height: 14),
-//
-//         Expanded(
-//           child: visibleOrders.isEmpty
-//               ? _buildEmptyState(context)
-//               : ListView.separated(
-//                   physics: const BouncingScrollPhysics(),
-//                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 25),
-//                   itemCount: visibleOrders.length,
-//                   separatorBuilder: (_, __) => const SizedBox(height: 14),
-//                   itemBuilder: (context, index) {
-//                     return _OrderCard(
-//                       order: visibleOrders[index],
-//                       onTap: () {
-//                         Navigator.of(context).push(
-//                           MaterialPageRoute(
-//                             builder: (_) =>
-//                                 OrderDetailsScreen(order: visibleOrders[index]),
-//                           ),
-//                         );
-//                       },
-//                     );
-//                   },
-//                 ),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   Widget _buildSegmentedControl(BuildContext context) {
-//     final theme = Theme.of(context);
-//     final isDark = theme.brightness == Brightness.dark;
-//
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 20),
-//       child: Container(
-//         height: 48,
-//         padding: const EdgeInsets.all(4),
-//         decoration: BoxDecoration(
-//           color: isDark
-//               ? theme.cardColor.withOpacity(0.75)
-//               : Colors.grey.shade200,
-//           borderRadius: BorderRadius.circular(14),
-//         ),
-//         child: Row(
-//           children: [
-//             Expanded(
-//               child: _segmentButton(
-//                 context: context,
-//                 title: 'Invoice',
-//                 selected: !showPrevious,
-//                 onTap: () {
-//                   setState(() {
-//                     showPrevious = false;
-//                   });
-//                 },
-//               ),
-//             ),
-//             Expanded(
-//               child: _segmentButton(
-//                 context: context,
-//                 title: 'Return Invoice',
-//                 selected: showPrevious,
-//                 onTap: () {
-//                   setState(() {
-//                     showPrevious = true;
-//                   });
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _segmentButton({
-//     required BuildContext context,
-//     required String title,
-//     required bool selected,
-//     required VoidCallback onTap,
-//   }) {
-//     final theme = Theme.of(context);
-//     final isDark = theme.brightness == Brightness.dark;
-//
-//     return GestureDetector(
-//       onTap: onTap,
-//       child: AnimatedContainer(
-//         duration: const Duration(milliseconds: 200),
-//         alignment: Alignment.center,
-//         decoration: BoxDecoration(
-//           color: selected ? theme.cardColor : Colors.transparent,
-//           borderRadius: BorderRadius.circular(11),
-//           boxShadow: selected
-//               ? [
-//                   BoxShadow(
-//                     color: Colors.black.withOpacity(0.06),
-//                     blurRadius: 5,
-//                     offset: const Offset(0, 2),
-//                   ),
-//                 ]
-//               : null,
-//         ),
-//         child: Text(
-//           title,
-//           style: TextStyle(
-//             fontSize: 14,
-//             fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-//             color: selected
-//                 ? MyOrdersScreen.primaryColor
-//                 : (isDark ? Colors.white70 : Colors.grey.shade600),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildEmptyState(BuildContext context) {
-//     final theme = Theme.of(context);
-//     final isDark = theme.brightness == Brightness.dark;
-//
-//     return Center(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(
-//             Icons.receipt_long_outlined,
-//             size: 55,
-//             color: isDark ? Colors.white38 : Colors.grey.shade400,
-//           ),
-//           const SizedBox(height: 12),
-//           Text(
-//             'No orders found',
-//             style: TextStyle(
-//               fontSize: 15,
-//               fontWeight: FontWeight.w600,
-//               color: isDark ? Colors.white70 : Colors.grey.shade600,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-//
-// class _OrderCard extends StatelessWidget {
-//   final OrderModel order;
-//   final VoidCallback onTap;
-//
-//   const _OrderCard({required this.order, required this.onTap});
-//
-//   static const Color primaryColor = Color(0xFFA5005A);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final theme = Theme.of(context);
-//     final isDark = theme.brightness == Brightness.dark;
-//     final bool isReturn = order.transactionType.toLowerCase() == 'return';
-//
-//     return Material(
-//       color: Colors.transparent,
-//       child: InkWell(
-//         onTap: onTap,
-//         borderRadius: BorderRadius.circular(20),
-//         child: Container(
-//           padding: const EdgeInsets.all(18),
-//           decoration: BoxDecoration(
-//             color: theme.cardColor,
-//             borderRadius: BorderRadius.circular(20),
-//             border: Border.all(
-//               color: isDark
-//                   ? Colors.white.withOpacity(0.10)
-//                   : Colors.grey.shade200,
-//             ),
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Colors.black.withOpacity(0.04),
-//                 blurRadius: 15,
-//                 offset: const Offset(0, 6),
-//               ),
-//             ],
-//           ),
-//           child: Row(
-//             children: [
-//               Container(
-//                 width: 52,
-//                 height: 52,
-//                 decoration: BoxDecoration(
-//                   color: primaryColor.withOpacity(0.10),
-//                   borderRadius: BorderRadius.circular(15),
-//                 ),
-//                 child: Icon(
-//                   isReturn
-//                       ? Icons.assignment_return_outlined
-//                       : Icons.receipt_long_outlined,
-//                   color: primaryColor,
-//                   size: 25,
-//                 ),
-//               ),
-//
-//               const SizedBox(width: 14),
-//
-//               Expanded(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Row(
-//                       children: [
-//                         Text(
-//                           order.transactionType,
-//                           style: const TextStyle(
-//                             fontSize: 15,
-//                             fontWeight: FontWeight.w800,
-//                           ),
-//                         ),
-//                         const SizedBox(width: 7),
-//                         Container(
-//                           padding: const EdgeInsets.symmetric(
-//                             horizontal: 7,
-//                             vertical: 3,
-//                           ),
-//                           decoration: BoxDecoration(
-//                             color: primaryColor.withOpacity(0.08),
-//                             borderRadius: BorderRadius.circular(6),
-//                           ),
-//                           child: Text(
-//                             order.transactionNumber,
-//                             style: const TextStyle(
-//                               fontSize: 10,
-//                               fontWeight: FontWeight.w700,
-//                               color: primaryColor,
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//
-//                     const SizedBox(height: 6),
-//
-//                     Text(
-//                       order.branchName,
-//                       style: TextStyle(
-//                         fontSize: 12,
-//                         color: isDark ? Colors.white70 : Colors.grey.shade700,
-//                         fontWeight: FontWeight.w500,
-//                       ),
-//                     ),
-//
-//                     const SizedBox(height: 4),
-//
-//                     Text(
-//                       order.date,
-//                       style: TextStyle(
-//                         fontSize: 11,
-//                         color: isDark ? Colors.white54 : Colors.grey.shade500,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//
-//               const SizedBox(width: 8),
-//
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   Text(
-//                     '${isReturn ? '-' : ''}${order.total.toStringAsFixed(2)} JD',
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.w800,
-//                       color: isReturn
-//                           ? (isDark ? Colors.red.shade300 : Colors.red.shade700)
-//                           : theme.textTheme.bodyLarge?.color,
-//                     ),
-//                   ),
-//
-//                   const SizedBox(height: 8),
-//
-//                   Icon(
-//                     Icons.chevron_right,
-//                     size: 20,
-//                     color: isDark ? Colors.white38 : Colors.grey.shade400,
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// // import 'package:flutter/material.dart';
-// //
-// // import 'OrderDetailsScreen.dart';
-// // import 'order.dart';
-// // import 'orders_repo.dart';
-// //
-// // class MyOrdersScreen extends StatefulWidget {
-// //   const MyOrdersScreen({super.key});
-// //
-// //   static const Color primaryColor = Color(0xFFA5005A);
-// //
-// //   @override
-// //   State<MyOrdersScreen> createState() => _MyOrdersScreenState();
-// // }
-// //
-// // class _MyOrdersScreenState extends State<MyOrdersScreen> {
-// //   final OrdersRepo _repo = OrdersRepo();
-// //
-// //   List<Order> _orders = [];
-// //   bool _isLoading = true;
-// //   String? _error;
-// //   bool showPrevious = false;
-// //
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //     _loadOrders();
-// //   }
-// //
-// //   // ============================================================
-// //   // ✅ تحميل الأوردرات من الـ API
-// //   // ============================================================
-// //   Future<void> _loadOrders() async {
-// //     setState(() {
-// //       _isLoading = true;
-// //       _error = null;
-// //     });
-// //
-// //     // final result = await _repo.fetchOrders();
-// //     final result = await _repo.fetchOrders(isCompleted: true);
-// //
-// //     if (!mounted) return;
-// //
-// //     // ✅ نفس نمط Result / Success / Failure تبع OrdersRepo
-// //     if (result is Success<List<Order>, Exception>) {
-// //       setState(() {
-// //         _orders = result.data;
-// //         _isLoading = false;
-// //       });
-// //     } else if (result is Failure<List<Order>, Exception>) {
-// //       setState(() {
-// //         _error = result.error.toString();
-// //         _isLoading = false;
-// //       });
-// //     }
-// //   }
-// //
-// //   Future<void> _onRefresh() async {
-// //     await _loadOrders();
-// //   }
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     final isDark = Theme.of(context).brightness == Brightness.dark;
-// //
-// //     // تقسيم الأوردرات حسب النوع
-// //     final currentOrders = _orders.where((o) => !o.isReturn).toList();
-// //     final previousOrders = _orders.where((o) => o.isReturn).toList();
-// //     final visibleOrders = showPrevious ? previousOrders : currentOrders;
-// //
-// //     // 👈 بدون Scaffold وبدون AppBar
-// //     return Column(
-// //       children: [
-// //         const SizedBox(height: 4),
-// //
-// //         _buildSegmentedControl(context),
-// //
-// //         const SizedBox(height: 14),
-// //
-// //         Expanded(child: _buildBody(context, visibleOrders, isDark)),
-// //       ],
-// //     );
-// //   }
-// //
-// //   // ============================================================
-// //   // BODY (Loading / Error / Empty / List)
-// //   // ============================================================
-// //   Widget _buildBody(
-// //     BuildContext context,
-// //     List<Order> visibleOrders,
-// //     bool isDark,
-// //   ) {
-// //     // Loading
-// //     if (_isLoading) {
-// //       return const Center(child: CircularProgressIndicator());
-// //     }
-// //
-// //     // Error
-// //     if (_error != null) {
-// //       return Center(
-// //         child: Padding(
-// //           padding: const EdgeInsets.all(24),
-// //           child: Column(
-// //             mainAxisAlignment: MainAxisAlignment.center,
-// //             children: [
-// //               Icon(
-// //                 Icons.error_outline_rounded,
-// //                 size: 55,
-// //                 color: Colors.red.shade300,
-// //               ),
-// //               const SizedBox(height: 12),
-// //               Text(
-// //                 'تعذر تحميل الطلبات',
-// //                 style: TextStyle(
-// //                   fontSize: 15,
-// //                   fontWeight: FontWeight.w600,
-// //                   color: isDark ? Colors.white70 : Colors.grey.shade700,
-// //                 ),
-// //               ),
-// //               const SizedBox(height: 8),
-// //               Text(
-// //                 _error!,
-// //                 textAlign: TextAlign.center,
-// //                 style: TextStyle(
-// //                   fontSize: 12,
-// //                   color: isDark ? Colors.white54 : Colors.grey.shade500,
-// //                 ),
-// //               ),
-// //               const SizedBox(height: 16),
-// //               TextButton.icon(
-// //                 onPressed: _loadOrders,
-// //                 icon: const Icon(Icons.refresh_rounded),
-// //                 label: const Text('إعادة المحاولة'),
-// //                 style: TextButton.styleFrom(
-// //                   foregroundColor: MyOrdersScreen.primaryColor,
-// //                 ),
-// //               ),
-// //             ],
-// //           ),
-// //         ),
-// //       );
-// //     }
-// //
-// //     // Empty
-// //     if (visibleOrders.isEmpty) {
-// //       return _buildEmptyState(context);
-// //     }
-// //
-// //     // List
-// //     return RefreshIndicator(
-// //       onRefresh: _onRefresh,
-// //       color: MyOrdersScreen.primaryColor,
-// //       child: ListView.separated(
-// //         physics: const AlwaysScrollableScrollPhysics(
-// //           parent: BouncingScrollPhysics(),
-// //         ),
-// //         padding: const EdgeInsets.fromLTRB(20, 4, 20, 25),
-// //         itemCount: visibleOrders.length,
-// //         separatorBuilder: (_, __) => const SizedBox(height: 14),
-// //         itemBuilder: (context, index) {
-// //           final order = visibleOrders[index];
-// //           return _OrderCard(
-// //             order: order,
-// //             onTap: () {
-// //               Navigator.of(context).push(
-// //                 MaterialPageRoute(
-// //                   builder: (_) => OrderDetailsScreen(order: order),
-// //                 ),
-// //               );
-// //             },
-// //           );
-// //         },
-// //       ),
-// //     );
-// //   }
-// //
-// //   Widget _buildSegmentedControl(BuildContext context) {
-// //     final theme = Theme.of(context);
-// //     final isDark = theme.brightness == Brightness.dark;
-// //
-// //     return Padding(
-// //       padding: const EdgeInsets.symmetric(horizontal: 20),
-// //       child: Container(
-// //         height: 48,
-// //         padding: const EdgeInsets.all(4),
-// //         decoration: BoxDecoration(
-// //           color: isDark
-// //               ? theme.cardColor.withOpacity(0.75)
-// //               : Colors.grey.shade200,
-// //           borderRadius: BorderRadius.circular(14),
-// //         ),
-// //         child: Row(
-// //           children: [
-// //             Expanded(
-// //               child: _segmentButton(
-// //                 context: context,
-// //                 title: 'Invoice',
-// //                 selected: !showPrevious,
-// //                 onTap: () => setState(() => showPrevious = false),
-// //               ),
-// //             ),
-// //             Expanded(
-// //               child: _segmentButton(
-// //                 context: context,
-// //                 title: 'Return Invoice',
-// //                 selected: showPrevious,
-// //                 onTap: () => setState(() => showPrevious = true),
-// //               ),
-// //             ),
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-// //
-// //   Widget _segmentButton({
-// //     required BuildContext context,
-// //     required String title,
-// //     required bool selected,
-// //     required VoidCallback onTap,
-// //   }) {
-// //     final theme = Theme.of(context);
-// //     final isDark = theme.brightness == Brightness.dark;
-// //
-// //     return GestureDetector(
-// //       onTap: onTap,
-// //       child: AnimatedContainer(
-// //         duration: const Duration(milliseconds: 200),
-// //         alignment: Alignment.center,
-// //         decoration: BoxDecoration(
-// //           color: selected ? theme.cardColor : Colors.transparent,
-// //           borderRadius: BorderRadius.circular(11),
-// //           boxShadow: selected
-// //               ? [
-// //                   BoxShadow(
-// //                     color: Colors.black.withOpacity(0.06),
-// //                     blurRadius: 5,
-// //                     offset: const Offset(0, 2),
-// //                   ),
-// //                 ]
-// //               : null,
-// //         ),
-// //         child: Text(
-// //           title,
-// //           style: TextStyle(
-// //             fontSize: 14,
-// //             fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-// //             color: selected
-// //                 ? MyOrdersScreen.primaryColor
-// //                 : (isDark ? Colors.white70 : Colors.grey.shade600),
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// //
-// //   Widget _buildEmptyState(BuildContext context) {
-// //     final theme = Theme.of(context);
-// //     final isDark = theme.brightness == Brightness.dark;
-// //
-// //     return Center(
-// //       child: Column(
-// //         mainAxisAlignment: MainAxisAlignment.center,
-// //         children: [
-// //           Icon(
-// //             Icons.receipt_long_outlined,
-// //             size: 55,
-// //             color: isDark ? Colors.white38 : Colors.grey.shade400,
-// //           ),
-// //           const SizedBox(height: 12),
-// //           Text(
-// //             'No orders found',
-// //             style: TextStyle(
-// //               fontSize: 15,
-// //               fontWeight: FontWeight.w600,
-// //               color: isDark ? Colors.white70 : Colors.grey.shade600,
-// //             ),
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// // }
-// //
-// // // ============================================================
-// // // ORDER CARD
-// // // ============================================================
-// // class _OrderCard extends StatelessWidget {
-// //   final Order order;
-// //   final VoidCallback onTap;
-// //
-// //   const _OrderCard({required this.order, required this.onTap});
-// //
-// //   static const Color primaryColor = Color(0xFFA5005A);
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     final theme = Theme.of(context);
-// //     final isDark = theme.brightness == Brightness.dark;
-// //     final bool isReturn = order.isReturn;
-// //
-// //     return Material(
-// //       color: Colors.transparent,
-// //       child: InkWell(
-// //         onTap: onTap,
-// //         borderRadius: BorderRadius.circular(20),
-// //         child: Container(
-// //           padding: const EdgeInsets.all(18),
-// //           decoration: BoxDecoration(
-// //             color: theme.cardColor,
-// //             borderRadius: BorderRadius.circular(20),
-// //             border: Border.all(
-// //               color: isDark
-// //                   ? Colors.white.withOpacity(0.10)
-// //                   : Colors.grey.shade200,
-// //             ),
-// //             boxShadow: [
-// //               BoxShadow(
-// //                 color: Colors.black.withOpacity(0.04),
-// //                 blurRadius: 15,
-// //                 offset: const Offset(0, 6),
-// //               ),
-// //             ],
-// //           ),
-// //           child: Row(
-// //             children: [
-// //               Container(
-// //                 width: 52,
-// //                 height: 52,
-// //                 decoration: BoxDecoration(
-// //                   color: primaryColor.withOpacity(0.10),
-// //                   borderRadius: BorderRadius.circular(15),
-// //                 ),
-// //                 child: Icon(
-// //                   isReturn
-// //                       ? Icons.assignment_return_outlined
-// //                       : Icons.receipt_long_outlined,
-// //                   color: primaryColor,
-// //                   size: 25,
-// //                 ),
-// //               ),
-// //
-// //               const SizedBox(width: 14),
-// //
-// //               Expanded(
-// //                 child: Column(
-// //                   crossAxisAlignment: CrossAxisAlignment.start,
-// //                   children: [
-// //                     Row(
-// //                       children: [
-// //                         Text(
-// //                           order.transactionType,
-// //                           style: const TextStyle(
-// //                             fontSize: 15,
-// //                             fontWeight: FontWeight.w800,
-// //                           ),
-// //                         ),
-// //                         const SizedBox(width: 7),
-// //                         Container(
-// //                           padding: const EdgeInsets.symmetric(
-// //                             horizontal: 7,
-// //                             vertical: 3,
-// //                           ),
-// //                           decoration: BoxDecoration(
-// //                             color: primaryColor.withOpacity(0.08),
-// //                             borderRadius: BorderRadius.circular(6),
-// //                           ),
-// //                           child: Text(
-// //                             '#${order.orderNo}',
-// //                             style: const TextStyle(
-// //                               fontSize: 10,
-// //                               fontWeight: FontWeight.w700,
-// //                               color: primaryColor,
-// //                             ),
-// //                           ),
-// //                         ),
-// //                       ],
-// //                     ),
-// //
-// //                     const SizedBox(height: 6),
-// //
-// //                     Text(
-// //                       order.branchName,
-// //                       style: TextStyle(
-// //                         fontSize: 12,
-// //                         color: isDark ? Colors.white70 : Colors.grey.shade700,
-// //                         fontWeight: FontWeight.w500,
-// //                       ),
-// //                     ),
-// //
-// //                     const SizedBox(height: 4),
-// //
-// //                     Text(
-// //                       _formatDate(order.dateTime),
-// //                       style: TextStyle(
-// //                         fontSize: 11,
-// //                         color: isDark ? Colors.white54 : Colors.grey.shade500,
-// //                       ),
-// //                     ),
-// //                   ],
-// //                 ),
-// //               ),
-// //
-// //               const SizedBox(width: 8),
-// //
-// //               Column(
-// //                 crossAxisAlignment: CrossAxisAlignment.end,
-// //                 children: [
-// //                   Text(
-// //                     '${isReturn ? '-' : ''}${order.total.toStringAsFixed(2)} JD',
-// //                     style: TextStyle(
-// //                       fontSize: 14,
-// //                       fontWeight: FontWeight.w800,
-// //                       color: isReturn
-// //                           ? (isDark ? Colors.red.shade300 : Colors.red.shade700)
-// //                           : theme.textTheme.bodyLarge?.color,
-// //                     ),
-// //                   ),
-// //
-// //                   const SizedBox(height: 8),
-// //
-// //                   Icon(
-// //                     Icons.chevron_right,
-// //                     size: 20,
-// //                     color: isDark ? Colors.white38 : Colors.grey.shade400,
-// //                   ),
-// //                 ],
-// //               ),
-// //             ],
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// //
-// //   // ✅ تنسيق التاريخ
-// //   String _formatDate(DateTime date) {
-// //     final months = [
-// //       'Jan',
-// //       'Feb',
-// //       'Mar',
-// //       'Apr',
-// //       'May',
-// //       'Jun',
-// //       'Jul',
-// //       'Aug',
-// //       'Sep',
-// //       'Oct',
-// //       'Nov',
-// //       'Dec',
-// //     ];
-// //
-// //     final hour = date.hour > 12
-// //         ? date.hour - 12
-// //         : (date.hour == 0 ? 12 : date.hour);
-// //     final period = date.hour >= 12 ? 'PM' : 'AM';
-// //     final minute = date.minute.toString().padLeft(2, '0');
-// //
-// //     return '${months[date.month - 1]} ${date.day}, ${date.year} • '
-// //         '$hour:$minute $period';
-// //   }
-// // }
-
 // import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
 //
 // import 'OrderDetailsScreen.dart';
-// import 'order.dart';
+// import 'OrderModel.dart';
 // import 'orders_repo.dart';
 //
 // class MyOrdersScreen extends StatefulWidget {
-//   const MyOrdersScreen({super.key});
+//   final String customerNo;
+//
+//   const MyOrdersScreen({super.key, required this.customerNo});
 //
 //   static const Color primaryColor = Color(0xFFA5005A);
 //
@@ -853,80 +17,94 @@
 // }
 //
 // class _MyOrdersScreenState extends State<MyOrdersScreen> {
-//   final OrdersRepo _repo = OrdersRepo();
+//   late final OrdersRepo _repo;
 //
-//   List<Order> _orders = [];
+//   List<OrderModel> _invoices = [];
+//   List<OrderModel> _returns = [];
+//
 //   bool _isLoading = true;
 //   String? _error;
-//   bool showPrevious = false;
+//
+//   /// false = الفواتير، true = المرتجعات
+//   bool _showReturns = false;
 //
 //   @override
 //   void initState() {
 //     super.initState();
+//     _repo = OrdersRepo(customerNo: widget.customerNo);
 //     _loadOrders();
 //   }
 //
 //   // ============================================================
-//   // ✅ تحميل الأوردرات من الـ API
+//   // تحميل الطلبات (نوعان: فواتير + مرتجعات)
 //   // ============================================================
 //   Future<void> _loadOrders() async {
+//     if (!mounted) return;
+//
 //     setState(() {
 //       _isLoading = true;
 //       _error = null;
 //     });
 //
-//     final result = await _repo.fetchOrders();
+//     // 1) الفواتير
+//     final invoicesResult = await _repo.fetchOrders(type: TransType.invoice);
+//     // 2) المرتجعات
+//     final returnsResult = await _repo.fetchOrders(type: TransType.returnDoc);
 //
 //     if (!mounted) return;
 //
-//     result.fold(
-//       (orders) {
-//         setState(() {
-//           _orders = orders;
-//           _isLoading = false;
-//         });
+//     // نتائج الفواتير
+//     invoicesResult.fold(
+//       (data) {
+//         _invoices = data;
 //       },
 //       (error) {
-//         setState(() {
-//           _error = error.toString();
-//           _isLoading = false;
-//         });
+//         _error = error.toString();
 //       },
 //     );
+//
+//     // نتائج المرتجعات
+//     returnsResult.fold(
+//       (data) {
+//         _returns = data;
+//       },
+//       (error) {
+//         _error ??= error.toString();
+//       },
+//     );
+//
+//     setState(() => _isLoading = false);
 //   }
 //
 //   Future<void> _onRefresh() async {
 //     await _loadOrders();
 //   }
 //
+//   // ============================================================
+//   // BUILD
+//   // ============================================================
 //   @override
 //   Widget build(BuildContext context) {
 //     final isDark = Theme.of(context).brightness == Brightness.dark;
 //
-//     // تقسيم الأوردرات حسب النوع
-//     final currentOrders = _orders.where((o) => !o.isReturn).toList();
-//     final previousOrders = _orders.where((o) => o.isReturn).toList();
-//     final visibleOrders = showPrevious ? previousOrders : currentOrders;
+//     final visibleOrders = _showReturns ? _returns : _invoices;
 //
 //     return Column(
 //       children: [
 //         const SizedBox(height: 4),
-//
 //         _buildSegmentedControl(context),
-//
 //         const SizedBox(height: 14),
-//
 //         Expanded(child: _buildBody(context, visibleOrders, isDark)),
 //       ],
 //     );
 //   }
 //
 //   // ============================================================
-//   // BODY (Loading / Error / Empty / List)
+//   // BODY
 //   // ============================================================
 //   Widget _buildBody(
 //     BuildContext context,
-//     List<Order> visibleOrders,
+//     List<OrderModel> visibleOrders,
 //     bool isDark,
 //   ) {
 //     if (_isLoading) {
@@ -1009,6 +187,9 @@
 //     );
 //   }
 //
+//   // ============================================================
+//   // SEGMENTED CONTROL
+//   // ============================================================
 //   Widget _buildSegmentedControl(BuildContext context) {
 //     final theme = Theme.of(context);
 //     final isDark = theme.brightness == Brightness.dark;
@@ -1030,16 +211,16 @@
 //               child: _segmentButton(
 //                 context: context,
 //                 title: 'Invoice'.tr(),
-//                 selected: !showPrevious,
-//                 onTap: () => setState(() => showPrevious = false),
+//                 selected: !_showReturns,
+//                 onTap: () => setState(() => _showReturns = false),
 //               ),
 //             ),
 //             Expanded(
 //               child: _segmentButton(
 //                 context: context,
 //                 title: 'Return Invoice'.tr(),
-//                 selected: showPrevious,
-//                 onTap: () => setState(() => showPrevious = true),
+//                 selected: _showReturns,
+//                 onTap: () => setState(() => _showReturns = true),
 //               ),
 //             ),
 //           ],
@@ -1089,6 +270,9 @@
 //     );
 //   }
 //
+//   // ============================================================
+//   // EMPTY STATE
+//   // ============================================================
 //   Widget _buildEmptyState(BuildContext context) {
 //     final theme = Theme.of(context);
 //     final isDark = theme.brightness == Brightness.dark;
@@ -1121,7 +305,7 @@
 // // ORDER CARD
 // // ============================================================
 // class _OrderCard extends StatelessWidget {
-//   final Order order;
+//   final OrderModel order;
 //   final VoidCallback onTap;
 //
 //   const _OrderCard({required this.order, required this.onTap});
@@ -1132,7 +316,9 @@
 //   Widget build(BuildContext context) {
 //     final theme = Theme.of(context);
 //     final isDark = theme.brightness == Brightness.dark;
-//     final bool isReturn = order.isReturn;
+//
+//     // مرتجع إذا Trans_Type == 2
+//     final bool isReturn = order.transType == 2;
 //
 //     return Material(
 //       color: Colors.transparent,
@@ -1159,6 +345,7 @@
 //           ),
 //           child: Row(
 //             children: [
+//               // أيقونة
 //               Container(
 //                 width: 52,
 //                 height: 52,
@@ -1177,17 +364,23 @@
 //
 //               const SizedBox(width: 14),
 //
+//               // معلومات
 //               Expanded(
 //                 child: Column(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
 //                   children: [
 //                     Row(
 //                       children: [
-//                         Text(
-//                           order.transactionType,
-//                           style: const TextStyle(
-//                             fontSize: 15,
-//                             fontWeight: FontWeight.w800,
+//                         Flexible(
+//                           child: Text(
+//                             order.transactionType.isNotEmpty
+//                                 ? order.transactionType
+//                                 : (isReturn ? 'مرتجع' : 'فاتورة'),
+//                             style: const TextStyle(
+//                               fontSize: 15,
+//                               fontWeight: FontWeight.w800,
+//                             ),
+//                             overflow: TextOverflow.ellipsis,
 //                           ),
 //                         ),
 //                         const SizedBox(width: 7),
@@ -1201,7 +394,7 @@
 //                             borderRadius: BorderRadius.circular(6),
 //                           ),
 //                           child: Text(
-//                             '#${order.orderNo}',
+//                             '#${order.transactionNumber}',
 //                             style: const TextStyle(
 //                               fontSize: 10,
 //                               fontWeight: FontWeight.w700,
@@ -1226,7 +419,7 @@
 //                     const SizedBox(height: 4),
 //
 //                     Text(
-//                       _formatDate(order.dateTime),
+//                       _formatDate(order.date),
 //                       style: TextStyle(
 //                         fontSize: 11,
 //                         color: isDark ? Colors.white54 : Colors.grey.shade500,
@@ -1238,11 +431,13 @@
 //
 //               const SizedBox(width: 8),
 //
+//               // المبلغ + أيقونة
 //               Column(
 //                 crossAxisAlignment: CrossAxisAlignment.end,
 //                 children: [
 //                   Text(
-//                     '${isReturn ? '-' : ''}${order.total.toStringAsFixed(2)} JD',
+//                     '${isReturn ? '-' : ''}'
+//                     '${order.total.toStringAsFixed(2)} JD',
 //                     style: TextStyle(
 //                       fontSize: 14,
 //                       fontWeight: FontWeight.w800,
@@ -1251,9 +446,7 @@
 //                           : theme.textTheme.bodyLarge?.color,
 //                     ),
 //                   ),
-//
 //                   const SizedBox(height: 8),
-//
 //                   Icon(
 //                     Icons.chevron_right,
 //                     size: 20,
@@ -1268,8 +461,17 @@
 //     );
 //   }
 //
-//   String _formatDate(DateTime date) {
-//     final months = [
+//   // ============================================================
+//   // تنسيق التاريخ (يستقبل String من الـ API)
+//   // ============================================================
+//   String _formatDate(String raw) {
+//     if (raw.trim().isEmpty) return '';
+//
+//     // جرّب نحوّل النص إلى DateTime
+//     final parsed = DateTime.tryParse(raw);
+//     if (parsed == null) return raw; // إذا فشل، أعرضه كما هو
+//
+//     const months = [
 //       'Jan',
 //       'Feb',
 //       'Mar',
@@ -1284,13 +486,15 @@
 //       'Dec',
 //     ];
 //
-//     final hour = date.hour > 12
-//         ? date.hour - 12
-//         : (date.hour == 0 ? 12 : date.hour);
-//     final period = date.hour >= 12 ? 'PM' : 'AM';
-//     final minute = date.minute.toString().padLeft(2, '0');
+//     final hour = parsed.hour > 12
+//         ? parsed.hour - 12
+//         : (parsed.hour == 0 ? 12 : parsed.hour);
 //
-//     return '${months[date.month - 1]} ${date.day}, ${date.year} • '
+//     final period = parsed.hour >= 12 ? 'PM' : 'AM';
+//     final minute = parsed.minute.toString().padLeft(2, '0');
+//
+//     return '${months[parsed.month - 1]} '
+//         '${parsed.day}, ${parsed.year} • '
 //         '$hour:$minute $period';
 //   }
 // }
@@ -1299,7 +503,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'OrderDetailsScreen.dart';
-import 'order.dart';
+import 'OrderModel.dart';
 import 'orders_repo.dart';
 
 class MyOrdersScreen extends StatefulWidget {
@@ -1316,10 +520,15 @@ class MyOrdersScreen extends StatefulWidget {
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
   late final OrdersRepo _repo;
 
-  List<Order> _orders = [];
+  List<OrderModel> _invoices = [];
+  List<OrderModel> _returns = [];
+
   bool _isLoading = true;
   String? _error;
-  bool showPrevious = false;
+
+  /// false = الفواتير
+  /// true = المرتجعات
+  bool _showReturns = false;
 
   @override
   void initState() {
@@ -1330,6 +539,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     _loadOrders();
   }
 
+  // ============================================================
+  // LOAD ORDERS
+  // ============================================================
+
   Future<void> _loadOrders() async {
     if (!mounted) return;
 
@@ -1338,39 +551,191 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       _error = null;
     });
 
-    final result = await _repo.fetchOrders();
+    // ----------------------------------------------------------
+    // 1) INVOICES
+    // ----------------------------------------------------------
+
+    final invoicesResult = await _repo.fetchOrders(type: TransType.invoice);
+
+    // ----------------------------------------------------------
+    // 2) RETURNS
+    // ----------------------------------------------------------
+
+    final returnsResult = await _repo.fetchOrders(type: TransType.returnDoc);
 
     if (!mounted) return;
 
-    result.fold(
-      (orders) {
-        setState(() {
-          _orders = orders;
-          _isLoading = false;
-        });
+    // ----------------------------------------------------------
+    // INVOICES RESULT
+    // ----------------------------------------------------------
+
+    invoicesResult.fold(
+      (data) {
+        _invoices = data;
       },
       (error) {
-        setState(() {
-          _error = error.toString();
-          _isLoading = false;
-        });
+        _error = error.toString();
       },
     );
+
+    // ----------------------------------------------------------
+    // RETURNS RESULT
+    // ----------------------------------------------------------
+
+    returnsResult.fold(
+      (data) {
+        _returns = data;
+      },
+      (error) {
+        _error ??= error.toString();
+      },
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
   }
+
+  // ============================================================
+  // REFRESH
+  // ============================================================
 
   Future<void> _onRefresh() async {
     await _loadOrders();
   }
 
+  // ============================================================
+  // OPEN ORDER DETAILS
+  // ============================================================
+
+  Future<void> _openOrderDetails(BuildContext context, OrderModel order) async {
+    // ----------------------------------------------------------
+    // Show loading dialog
+    // ----------------------------------------------------------
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+
+        return Dialog(
+          backgroundColor: Theme.of(context).cardColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: MyOrdersScreen.primaryColor,
+                  ),
+                ),
+
+                const SizedBox(width: 16),
+
+                Flexible(
+                  child: Text(
+                    'Loading invoice details...',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: isDark ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    // ----------------------------------------------------------
+    // Fetch invoice details
+    // ----------------------------------------------------------
+
+    final result = await _repo.fetchOrderDetails(order, lang: 1, operNo: 1);
+
+    // ----------------------------------------------------------
+    // Close loading dialog
+    // ----------------------------------------------------------
+
+    if (!mounted) return;
+
+    Navigator.of(context).pop();
+
+    // ----------------------------------------------------------
+    // Handle result
+    // ----------------------------------------------------------
+
+    result.fold(
+      (detailsOrder) {
+        if (!mounted) return;
+
+        // ------------------------------------------------------
+        // Debug
+        // ------------------------------------------------------
+
+        debugPrint('✅ [MyOrdersScreen] Details loaded successfully');
+
+        debugPrint('🧾 Trans_ID: ${detailsOrder.transId}');
+
+        debugPrint('🍔 Items count: ${detailsOrder.items.length}');
+
+        for (final item in detailsOrder.items) {
+          debugPrint(
+            '🍔 Item: '
+            'id=${item.id}, '
+            'name=${item.name}, '
+            'qty=${item.quantity}, '
+            'price=${item.price}, '
+            'total=${item.total}',
+          );
+        }
+
+        // ------------------------------------------------------
+        // Open details screen WITH items
+        // ------------------------------------------------------
+
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => OrderDetailsScreen(order: detailsOrder),
+          ),
+        );
+      },
+      (error) {
+        if (!mounted) return;
+
+        debugPrint('❌ [MyOrdersScreen] Failed to load details: $error');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to load invoice details: $error'),
+            backgroundColor: Colors.red.shade700,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      },
+    );
+  }
+
+  // ============================================================
+  // BUILD
+  // ============================================================
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final currentOrders = _orders.where((o) => !o.isReturn).toList();
-
-    final previousOrders = _orders.where((o) => o.isReturn).toList();
-
-    final visibleOrders = showPrevious ? previousOrders : currentOrders;
+    final visibleOrders = _showReturns ? _returns : _invoices;
 
     return Column(
       children: [
@@ -1385,14 +750,24 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     );
   }
 
+  // ============================================================
+  // BODY
+  // ============================================================
+
   Widget _buildBody(
     BuildContext context,
-    List<Order> visibleOrders,
+    List<OrderModel> visibleOrders,
     bool isDark,
   ) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(color: MyOrdersScreen.primaryColor),
+      );
     }
+
+    // ----------------------------------------------------------
+    // ERROR
+    // ----------------------------------------------------------
 
     if (_error != null) {
       return Center(
@@ -1445,9 +820,17 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       );
     }
 
+    // ----------------------------------------------------------
+    // EMPTY
+    // ----------------------------------------------------------
+
     if (visibleOrders.isEmpty) {
       return _buildEmptyState(context);
     }
+
+    // ----------------------------------------------------------
+    // ORDERS
+    // ----------------------------------------------------------
 
     return RefreshIndicator(
       onRefresh: _onRefresh,
@@ -1465,11 +848,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           return _OrderCard(
             order: order,
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => OrderDetailsScreen(order: order),
-                ),
-              );
+              _openOrderDetails(context, order);
             },
           );
         },
@@ -1477,9 +856,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     );
   }
 
+  // ============================================================
+  // SEGMENTED CONTROL
+  // ============================================================
+
   Widget _buildSegmentedControl(BuildContext context) {
     final theme = Theme.of(context);
-
     final isDark = theme.brightness == Brightness.dark;
 
     return Padding(
@@ -1499,9 +881,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               child: _segmentButton(
                 context: context,
                 title: 'Invoice'.tr(),
-                selected: !showPrevious,
+                selected: !_showReturns,
                 onTap: () {
-                  setState(() => showPrevious = false);
+                  setState(() {
+                    _showReturns = false;
+                  });
                 },
               ),
             ),
@@ -1510,9 +894,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               child: _segmentButton(
                 context: context,
                 title: 'Return Invoice'.tr(),
-                selected: showPrevious,
+                selected: _showReturns,
                 onTap: () {
-                  setState(() => showPrevious = true);
+                  setState(() {
+                    _showReturns = true;
+                  });
                 },
               ),
             ),
@@ -1521,6 +907,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       ),
     );
   }
+
+  // ============================================================
+  // SEGMENT BUTTON
+  // ============================================================
 
   Widget _segmentButton({
     required BuildContext context,
@@ -1564,6 +954,10 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     );
   }
 
+  // ============================================================
+  // EMPTY STATE
+  // ============================================================
+
   Widget _buildEmptyState(BuildContext context) {
     final theme = Theme.of(context);
 
@@ -1595,8 +989,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   }
 }
 
+// ============================================================
+// ORDER CARD
+// ============================================================
+
 class _OrderCard extends StatelessWidget {
-  final Order order;
+  final OrderModel order;
   final VoidCallback onTap;
 
   const _OrderCard({required this.order, required this.onTap});
@@ -1609,7 +1007,7 @@ class _OrderCard extends StatelessWidget {
 
     final isDark = theme.brightness == Brightness.dark;
 
-    final bool isReturn = order.isReturn;
+    final bool isReturn = order.transType == 2;
 
     return Material(
       color: Colors.transparent,
@@ -1636,6 +1034,10 @@ class _OrderCard extends StatelessWidget {
           ),
           child: Row(
             children: [
+              // ==================================================
+              // ICON
+              // ==================================================
+
               Container(
                 width: 52,
                 height: 52,
@@ -1654,17 +1056,25 @@ class _OrderCard extends StatelessWidget {
 
               const SizedBox(width: 14),
 
+              // ==================================================
+              // INFORMATION
+              // ==================================================
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text(
-                          order.transactionType,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
+                        Flexible(
+                          child: Text(
+                            order.transactionType.isNotEmpty
+                                ? order.transactionType
+                                : (isReturn ? 'مرتجع' : 'فاتورة'),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
 
@@ -1680,7 +1090,7 @@ class _OrderCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
-                            '#${order.orderNo}',
+                            '#${order.transactionNumber}',
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
@@ -1705,7 +1115,7 @@ class _OrderCard extends StatelessWidget {
                     const SizedBox(height: 4),
 
                     Text(
-                      _formatDate(order.dateTime),
+                      _formatDate(order.date),
                       style: TextStyle(
                         fontSize: 11,
                         color: isDark ? Colors.white54 : Colors.grey.shade500,
@@ -1717,6 +1127,9 @@ class _OrderCard extends StatelessWidget {
 
               const SizedBox(width: 8),
 
+              // ==================================================
+              // TOTAL
+              // ==================================================
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -1748,8 +1161,22 @@ class _OrderCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    final months = [
+  // ============================================================
+  // FORMAT DATE
+  // ============================================================
+
+  String _formatDate(String raw) {
+    if (raw.trim().isEmpty) {
+      return '';
+    }
+
+    final parsed = DateTime.tryParse(raw);
+
+    if (parsed == null) {
+      return raw;
+    }
+
+    const months = [
       'Jan',
       'Feb',
       'Mar',
@@ -1764,16 +1191,16 @@ class _OrderCard extends StatelessWidget {
       'Dec',
     ];
 
-    final hour = date.hour > 12
-        ? date.hour - 12
-        : (date.hour == 0 ? 12 : date.hour);
+    final hour = parsed.hour > 12
+        ? parsed.hour - 12
+        : (parsed.hour == 0 ? 12 : parsed.hour);
 
-    final period = date.hour >= 12 ? 'PM' : 'AM';
+    final period = parsed.hour >= 12 ? 'PM' : 'AM';
 
-    final minute = date.minute.toString().padLeft(2, '0');
+    final minute = parsed.minute.toString().padLeft(2, '0');
 
-    return '${months[date.month - 1]} '
-        '${date.day}, ${date.year} • '
+    return '${months[parsed.month - 1]} '
+        '${parsed.day}, ${parsed.year} • '
         '$hour:$minute $period';
   }
 }
