@@ -22,14 +22,12 @@ class TransactionCell extends StatelessWidget {
         ? Colors.white.withOpacity(0.08)
         : Colors.grey.shade200;
 
-    // العنوان
     final title = transaction.loyaltyTransDesc?.isNotEmpty == true
         ? transaction.loyaltyTransDesc!
         : (transaction.transTypeDesc?.isNotEmpty == true
               ? transaction.transTypeDesc!
               : (isIncoming ? 'Purchase' : 'Redeemed'));
 
-    // النقاط
     final pointsText = isIncoming
         ? '+${transaction.point}'
         : '${transaction.point}';

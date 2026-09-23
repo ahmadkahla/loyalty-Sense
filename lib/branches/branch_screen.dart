@@ -49,30 +49,18 @@ class _BranchScreenState extends State<BranchScreen> {
       value: controller,
       child: Consumer<BranchesController>(
         builder: (context, controller, child) {
-          // ============================================================
-          // LOADING
-          // ============================================================
           if (controller.isLoading && controller.branches.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // ============================================================
-          // ERROR
-          // ============================================================
           if (controller.error != null && controller.branches.isEmpty) {
             return _buildError(context, controller.error!);
           }
 
-          // ============================================================
-          // EMPTY
-          // ============================================================
           if (controller.branches.isEmpty) {
             return _buildEmpty();
           }
 
-          // ============================================================
-          // BRANCHES
-          // ============================================================
           return RefreshIndicator(
             color: const Color(0xFFA5005A),
             onRefresh: () {

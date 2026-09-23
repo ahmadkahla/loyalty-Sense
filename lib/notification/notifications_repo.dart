@@ -1,179 +1,162 @@
-// import '../app_all/BaseRepo.dart';
-// import 'notification_model.dart';
-//
-// class NotificationsRepo extends BaseRepo {
-//   // ⚠️ مؤقتاً: CustomerId ثابت للاختبار
-//   // لاحقاً: اقرأه من SharedPreferences بعد تسجيل الدخول
-//   static const int customerId = 1;
-//
-//   /// جلب الإشعارات
-//   Future<List<AppNotification>> fetchNotifications({
-//     required int page,
-//     bool? read,
-//     int pageSize = 20,
-//   }) async {
-//     final response = await getRequest(
-//       path: '/GetERPNotificationLogSearch',
-//       queryParams: {
-//         'CustomerId': customerId,
-//         'IsRead': read ?? false,
-//         'PageIndex': page,
-//         'PageSize': pageSize,
-//       },
-//     );
-//
-//     if (!isOk(response)) {
-//       throw Exception('Failed to fetch notifications');
-//     }
-//
-//     final data = decodeResponse(response);
-//     if (data == null) return [];
-//
-//     return parseList<AppNotification>(data, (e) => AppNotification.fromJson(e));
-//   }
-//
-//   /// تعليم إشعار كمقروء
-//   Future<bool> readNotification(final String id) async {
-//     final response = await putRequest(
-//       path: '/PutERPNotificationLog',
-//       body: {
-//         'BodyParam': {'CustomerId': customerId, 'NotificationId': id},
-//       },
-//     );
-//
-//     if (!isOk(response)) {
-//       return false;
-//     }
-//
-//     final jsonResponse = decodeResponse(response);
-//     if (jsonResponse is num) return jsonResponse >= 1;
-//     return false;
-//   }
-// }
+import 'dart:io';
 
-// import '../app_all/BaseRepo.dart';
-// import 'notification_model.dart';
-//
-// class NotificationsRepo extends BaseRepo {
-//   // ⚠️ مؤقتاً: CustomerId ثابت للاختبار
-//   // لاحقاً: اقرأه من SharedPreferences بعد تسجيل الدخول
-//   static const int customerId = 1;
-//
-//   /// جلب الإشعارات
-//   Future<List<AppNotification>> fetchNotifications({
-//     required int page,
-//     bool? read,
-//     int pageSize = 20,
-//   }) async {
-//     final response = await getRequest(
-//       path: '/GetERPNotificationLogSearch',
-//       queryParams: {
-//         'CustomerId': customerId,
-//         'IsRead': read ?? false,
-//         'PageIndex': page,
-//         'PageSize': pageSize,
-//       },
-//     );
-//
-//     if (!isOk(response)) {
-//       throw Exception('Failed to fetch notifications');
-//     }
-//
-//     final data = decodeResponse(response);
-//     if (data == null) return [];
-//
-//     return parseList<AppNotification>(data, (e) => AppNotification.fromJson(e));
-//   }
-//
-//   /// تعليم إشعار كمقروء
-//   Future<bool> readNotification(final String id) async {
-//     final response = await putRequest(
-//       path: '/PutERPNotificationLog',
-//       body: {
-//         'BodyParam': {'CustomerId': customerId, 'NotificationId': id},
-//       },
-//     );
-//
-//     if (!isOk(response)) {
-//       return false;
-//     }
-//
-//     final jsonResponse = decodeResponse(response);
-//     if (jsonResponse is num) return jsonResponse >= 1;
-//     return false;
-//   }
-// }
-
+import 'package:flutter/foundation.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_all/BaseRepo.dart';
 import 'notification_model.dart';
 
 class NotificationsRepo extends BaseRepo {
-  // ============================================================
-  // ✅ Helper: يجيب الـ customerNo من SharedPreferences
-  // ============================================================
-  Future<int> _getCustomerId() async {
-    final prefs = await SharedPreferences.getInstance();
+  NotificationsRepo();
 
-    final customerNo =
-        prefs.getString('user_customer_no') ??
-        prefs.getString('user_Customer_No') ??
-        prefs.getString('user_id') ??
-        prefs.getString('user_Customer_No');
+  Future<String> _getCustomerId() async {
+    debugPrint('═══════════════════════════════════════');
+    debugPrint('🔍 _getCustomerId START');
+    debugPrint('═══════════════════════════════════════');
 
-    return int.tryParse(customerNo ?? '') ?? 1;
+    try {
+      final box = GetStorage();
+      debugPrint('📦 GetStorage keys: ${box.getKeys().toList()}');
+
+      final possibleKeys = [
+        'user_customer_no',
+        'customerNo',
+        'Customer_No',
+        'customer_no',
+        'CustomerNo',
+        'user_id',
+      ];
+
+      for (final key in possibleKeys) {
+        final value = box.read(key);
+        if (value != null) {
+          final str = value.toString().trim();
+          if (str.isNotEmpty && str != '0' && str != 'null') {
+            debugPrint('✅ CustomerId from GetStorage [$key]: $str');
+            return str;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ GetStorage error: $e');
+    }
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      debugPrint('💾 SharedPreferences keys: ${prefs.getKeys()}');
+
+      final possibleKeys = [
+        'user_customer_no',
+        'customerNo',
+        'Customer_No',
+        'customer_no',
+      ];
+
+      for (final key in possibleKeys) {
+        final value = prefs.getString(key);
+        if (value != null) {
+          final str = value.trim();
+          if (str.isNotEmpty && str != '0') {
+            debugPrint('✅ CustomerId from SharedPreferences [$key]: $str');
+            return str;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ SharedPreferences error: $e');
+    }
+
+    // ============================================================
+    // 3) Fallback
+    // ============================================================
+    debugPrint('⚠️ CustomerId NOT FOUND — using 1');
+    debugPrint('═══════════════════════════════════════');
+    return '1';
   }
 
-  // ============================================================
-  // ✅ جلب الإشعارات
-  // ============================================================
   Future<List<AppNotification>> fetchNotifications({
     required int page,
     bool? read,
     int pageSize = 20,
   }) async {
-    final customerId = await _getCustomerId();
+    try {
+      final customerId = await _getCustomerId();
 
-    final response = await getRequest(
-      path: '/GetERPNotificationLogSearch',
-      queryParams: {
-        'CustomerId': customerId,
-        'IsRead': read ?? false,
-        'PageIndex': page,
-        'PageSize': pageSize,
-      },
-    );
+      final response = await getRequest(
+        path: '/GetERPNotificationLogSearch',
+        queryParams: {
+          'CustomerId': customerId,
+          'IsRead': read ?? false,
+          'PageIndex': page,
+          'PageSize': pageSize,
+        },
+      );
 
-    if (!isOk(response)) {
-      throw Exception('Failed to fetch notifications');
+      if (!isOk(response)) {
+        throw Exception('Failed to fetch notifications');
+      }
+
+      final data = decodeResponse(response);
+      if (data == null) return [];
+
+      return parseList<AppNotification>(
+        data,
+        (e) => AppNotification.fromJson(e),
+      );
+    } catch (e) {
+      debugPrint('❌ fetchNotifications error: $e');
+      rethrow;
     }
-
-    final data = decodeResponse(response);
-    if (data == null) return [];
-
-    return parseList<AppNotification>(data, (e) => AppNotification.fromJson(e));
   }
 
-  // ============================================================
-  // ✅ تعليم إشعار كمقروء
-  // ============================================================
   Future<bool> readNotification(final String id) async {
-    final customerId = await _getCustomerId();
+    try {
+      final customerId = await _getCustomerId();
 
-    final response = await putRequest(
-      path: '/PutERPNotificationLog',
-      body: {
-        'BodyParam': {'CustomerId': customerId, 'NotificationId': id},
-      },
-    );
+      final response = await putRequest(
+        path: '/PutERPNotificationLog',
+        body: {
+          'BodyParam': {'CustomerId': customerId, 'NotificationId': id},
+        },
+      );
 
-    if (!isOk(response)) {
+      if (!isOk(response)) return false;
+
+      final json = decodeResponse(response);
+      if (json is num) return json >= 1;
+      return false;
+    } catch (e) {
+      debugPrint('❌ readNotification error: $e');
       return false;
     }
+  }
 
-    final jsonResponse = decodeResponse(response);
-    if (jsonResponse is num) return jsonResponse >= 1;
-    return false;
+  Future<bool> uploadNotificationToken({required String token}) async {
+    try {
+      final customerId = await _getCustomerId();
+
+      final response = await postRequest(
+        path: '/PostCustomerAppToken',
+        body: {
+          'BodyParam': {
+            'DeviceType': Platform.isAndroid ? 1 : 0,
+            'CustomerId': customerId,
+            'Token': token,
+            'AppLang': 1,
+            'OperNo': 1,
+          },
+        },
+      );
+
+      if (!isOk(response)) return false;
+
+      final json = decodeResponse(response);
+      if (json is num) return json >= 1;
+      return false;
+    } catch (e) {
+      debugPrint('❌ uploadNotificationToken error: $e');
+      return false;
+    }
   }
 }

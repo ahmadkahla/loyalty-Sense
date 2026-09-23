@@ -228,7 +228,7 @@ class AppSlide {
   final int id;
   final String? arabicDesc;
   final String? englishDesc;
-  final int? linkType; // 1=لا يوجد, 2=مجموعة, 3=منتج, 4=رابط خارجي ...
+  final int? linkType;
   final String? linkId;
   final String? arabicImage;
   final String? englishImage;
@@ -270,9 +270,6 @@ class AppSlide {
     );
   }
 
-  // ============================================================
-  // HELPERS
-  // ============================================================
   static int? _parseInt(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;
@@ -294,9 +291,6 @@ class AppSlide {
     return DateTime.tryParse(value.toString());
   }
 
-  // ============================================================
-  // GETTERS — base64
-  // ============================================================
   Uint8List? get arabicImageBytes {
     final img = arabicImage;
     if (img == null || img.isEmpty) return null;
@@ -326,38 +320,26 @@ class AppSlide {
     return englishDesc ?? '';
   }
 
-  /// 👈⭐ هل البانر عنده رابط قابل للنقر؟
   bool get hasLink {
-    // linkType = 1 → "لا يوجد رابط"
-    // linkType = 2 → "مجموعة" (Category)
-    // linkType = 3 → "منتج" (Product)
-    // linkType = 4 → رابط خارجي
-    // أي قيمة أخرى → اعتبرها رابط
     if (linkType == null || linkType == 1) return false;
 
-    // 👈 إذا linkId فاضي → لا يوجد رابط فعلي
     if (linkId == null || linkId!.trim().isEmpty) return false;
 
     return true;
   }
 
-  /// 👈⭐ استخراج الرابط الفعلي
   String? get externalLink {
     if (!hasLink) return null;
 
-    // إذا linkId نفسه URL
     if (linkId!.startsWith('http://') || linkId!.startsWith('https://')) {
       return linkId;
     }
 
-    // إذا كان رابط خارجي (type 4)
     if (linkType == 4) {
       return linkId;
     }
 
-    // للأنواع الأخرى (منتج/مجموعة) — ابنِ رابط موقعك
-    // عدّل هذا حسب الموقع الفعلي
-    const baseUrl = 'https://sense.com/'; // 👈⭐ غيّرها حسب موقعك
+    const baseUrl = 'https://sense.com/';
     switch (linkType) {
       case 2:
         return '$baseUrl/category/${linkId}';

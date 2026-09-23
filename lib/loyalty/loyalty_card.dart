@@ -5,24 +5,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-// ============================================================================
-// COLORS
-// ============================================================================
-
 class LoyaltyCardColors {
   static const Color primary = Color(0xFF9C0E4F);
   static const Color primaryLight = Color(0xFFC2185B);
 }
 
-// ============================================================================
-// CARD SIDE
-// ============================================================================
-
 enum CardSide { front, qr, barcode }
-
-// ============================================================================
-// LOYALTY CARD WIDGET
-// ============================================================================
 
 class LoyaltyCard extends StatefulWidget {
   final int points;
@@ -65,7 +53,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
   CardSide _targetSide = CardSide.front;
   CardSide _backSide = CardSide.qr;
 
-  static const double cardHeight = 330;
+  static const double cardHeight = 290;
 
   @override
   void initState() {
@@ -169,205 +157,6 @@ class _LoyaltyCardState extends State<LoyaltyCard>
     );
   }
 
-  // ==========================================================================
-  // FRONT CARD
-  // ==========================================================================
-  // Widget _buildFrontCard() {
-  //   final progress = widget.nextLevelPoints > 0
-  //       ? math.min(widget.points / widget.nextLevelPoints, 1.0)
-  //       : 0.0;
-  //   final pointsToNext = math.max(widget.nextLevelPoints - widget.points, 0);
-  //
-  //   return Container(
-  //     width: double.infinity,
-  //     height: cardHeight,
-  //     padding: const EdgeInsets.all(18),
-  //     decoration: BoxDecoration(
-  //       gradient: const LinearGradient(
-  //         colors: [LoyaltyCardColors.primary, LoyaltyCardColors.primaryLight],
-  //         begin: Alignment.topLeft,
-  //         end: Alignment.bottomRight,
-  //       ),
-  //       borderRadius: BorderRadius.circular(22),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: LoyaltyCardColors.primary.withOpacity(0.30),
-  //           blurRadius: 16,
-  //           offset: const Offset(0, 8),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         // CURRENT BALANCE
-  //         Row(
-  //           children: [
-  //             Container(
-  //               width: 26,
-  //               height: 26,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.white.withOpacity(0.20),
-  //                 borderRadius: BorderRadius.circular(6),
-  //               ),
-  //               child: const Icon(
-  //                 Icons.account_balance_wallet_rounded,
-  //                 color: Colors.white,
-  //                 size: 16,
-  //               ),
-  //             ),
-  //             const SizedBox(width: 10),
-  //             Text(
-  //               'Current_Balance'.tr(),
-  //               style: TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 15,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //             const Spacer(),
-  //             Text(
-  //               '${widget.moneyValue.toStringAsFixed(1)}\$',
-  //               style: const TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 22,
-  //                 fontWeight: FontWeight.w800,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //
-  //         const SizedBox(height: 14),
-  //
-  //         // POINTS
-  //         Row(
-  //           children: [
-  //             Container(
-  //               width: 26,
-  //               height: 26,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.white.withOpacity(0.20),
-  //                 shape: BoxShape.circle,
-  //               ),
-  //               child: const Icon(
-  //                 Icons.stars_rounded,
-  //                 color: Colors.white,
-  //                 size: 16,
-  //               ),
-  //             ),
-  //             const SizedBox(width: 10),
-  //             // Text(
-  //             //   '${widget.points} Points'.tr(),
-  //             //   style: const TextStyle(
-  //             //     color: Colors.white,
-  //             //     fontSize: 15,
-  //             //     fontWeight: FontWeight.w600,
-  //             //   ),
-  //             // ),
-  //             Text(
-  //               '${widget.points} ${"Points".tr()}',
-  //               style: const TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 15,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //
-  //         const SizedBox(height: 16),
-  //
-  //         // LEVEL
-  //         Row(
-  //           children: [
-  //             Text(
-  //               widget.cardLevel,
-  //               style: const TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 20,
-  //                 fontWeight: FontWeight.w800,
-  //               ),
-  //             ),
-  //             const Spacer(),
-  //             // Text(
-  //             //   '$pointsToNext points to next level'.tr(),
-  //             //   style: const TextStyle(
-  //             //     color: Colors.white,
-  //             //     fontSize: 13,
-  //             //     fontWeight: FontWeight.w600,
-  //             //   ),
-  //             // ),
-  //             Text(
-  //               '$pointsToNext ${"points to next level".tr()}',
-  //               style: const TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 13,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //
-  //         const SizedBox(height: 8),
-  //
-  //         // PROGRESS
-  //         ClipRRect(
-  //           borderRadius: BorderRadius.circular(8),
-  //           child: LinearProgressIndicator(
-  //             value: progress,
-  //             backgroundColor: Colors.white.withOpacity(0.25),
-  //             valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-  //             minHeight: 8,
-  //           ),
-  //         ),
-  //
-  //         const SizedBox(height: 10),
-  //
-  //         Text(
-  //           "Keep going! You're closer to the next level.".tr(),
-  //           style: TextStyle(
-  //             color: Colors.white.withOpacity(0.90),
-  //             fontSize: 12,
-  //             fontWeight: FontWeight.w500,
-  //           ),
-  //         ),
-  //
-  //         const Spacer(),
-  //
-  //         // QR + BARCODE
-  //         Row(
-  //           children: [
-  //             _buildCodeButton(
-  //               icon: Image.asset(
-  //                 'assets/icon/icons8-qr-code-50.png',
-  //                 width: 28,
-  //                 height: 28,
-  //                 fit: BoxFit.contain,
-  //               ),
-  //               label: 'QR Code',
-  //               onTap: () => _flipTo(CardSide.qr),
-  //             ),
-  //             const SizedBox(width: 10),
-  //             _buildCodeButton(
-  //               icon: Image.asset(
-  //                 'assets/icon/icons8-barcode-50.png',
-  //                 width: 28,
-  //                 height: 28,
-  //                 fit: BoxFit.contain,
-  //               ),
-  //               label: 'Barcode',
-  //               onTap: () => _flipTo(CardSide.barcode),
-  //             ),
-  //           ],
-  //         ),
-  //
-  //         const SizedBox(height: 10),
-  //
-  //         _buildDailyRewardButton(),
-  //       ],
-  //     ),
-  //   );
-  // }
   Widget _buildFrontCard() {
     final progress = widget.nextLevelPoints > 0
         ? math.min(widget.points / widget.nextLevelPoints, 1.0)
@@ -376,8 +165,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
 
     return Container(
       width: double.infinity,
-      // ✅ تم حذف height: cardHeight
-      // البطاقة الآن تأخذ حجمها من المحتوى تلقائياً
+
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -395,7 +183,7 @@ class _LoyaltyCardState extends State<LoyaltyCard>
         ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min, // ✅ مهم جداً
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // CURRENT BALANCE
@@ -505,19 +293,6 @@ class _LoyaltyCardState extends State<LoyaltyCard>
 
           const SizedBox(height: 8),
 
-          Text(
-            "Keep going! You're closer to the next level.".tr(),
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.90),
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-
-          // ✅ تم حذف Spacer() هنا
-          const SizedBox(height: 12),
-
-          // QR + BARCODE
           Row(
             children: [
               _buildCodeButton(
@@ -552,9 +327,6 @@ class _LoyaltyCardState extends State<LoyaltyCard>
     );
   }
 
-  // ==========================================================================
-  // DAILY REWARD BUTTON
-  // ==========================================================================
   Widget _buildDailyRewardButton() {
     final canClaim = !widget.dailyRewardClaimed && !widget.isClaiming;
     final showLoading = widget.isClaiming;
@@ -670,9 +442,6 @@ class _LoyaltyCardState extends State<LoyaltyCard>
     );
   }
 
-  // ==========================================================================
-  // QR CARD
-  // ==========================================================================
   Widget _buildQrCard() {
     return Container(
       width: double.infinity,
@@ -755,9 +524,6 @@ class _LoyaltyCardState extends State<LoyaltyCard>
     );
   }
 
-  // ==========================================================================
-  // BARCODE CARD
-  // ==========================================================================
   Widget _buildBarcodeCard() {
     final membershipNumber = widget.cardCode.isNotEmpty
         ? widget.cardCode

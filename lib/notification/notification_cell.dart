@@ -32,20 +32,13 @@ class NotificationCell extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // الأيقونة
-            Container(
+            SizedBox(
               width: 48,
               height: 48,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey.shade200,
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Image.asset('assets/logo.png'),
+              child: Image.asset('assets/logo.png', fit: BoxFit.contain),
             ),
             const SizedBox(width: 12),
 
-            // المحتوى
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +55,18 @@ class NotificationCell extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (!notification.isRead)
+
+                      if (notification.hasLink) ...[
+                        const SizedBox(width: 6),
+                        Icon(
+                          Icons.link_rounded,
+                          size: 18,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ],
+
+                      if (!notification.isRead) ...[
+                        const SizedBox(width: 6),
                         Container(
                           width: 8,
                           height: 8,
@@ -71,8 +75,10 @@ class NotificationCell extends StatelessWidget {
                             color: theme.colorScheme.primary,
                           ),
                         ),
+                      ],
                     ],
                   ),
+
                   if (body != null && title != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
@@ -87,10 +93,11 @@ class NotificationCell extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      timeago.format(notification.time),
+                      timeago.format(notification.time, locale: languageCode),
                       style: theme.textTheme.labelMedium?.copyWith(
                         color: Colors.grey.shade600,
                       ),

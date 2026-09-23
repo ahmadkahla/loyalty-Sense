@@ -44,9 +44,19 @@
 <!--    </queries>-->
 <!--</manifest>-->
 
+
+
+
 <!--<manifest xmlns:android="http://schemas.android.com/apk/res/android">-->
 
+<!--    &lt;!&ndash; ============================================================ &ndash;&gt;-->
+<!--    &lt;!&ndash; ✅ الصلاحيات المطلوبة لـ FCM + API                            &ndash;&gt;-->
+<!--    &lt;!&ndash; ============================================================ &ndash;&gt;-->
 <!--    <uses-permission android:name="android.permission.INTERNET"/>-->
+<!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>-->
+<!--    <uses-permission android:name="android.permission.VIBRATE"/>-->
+<!--    <uses-permission android:name="android.permission.WAKE_LOCK"/>-->
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
 
 <!--    <application-->
 <!--        android:label=" Sense Loyalty"-->
@@ -72,13 +82,28 @@
 <!--                <action android:name="android.intent.action.MAIN"/>-->
 <!--                <category android:name="android.intent.category.LAUNCHER"/>-->
 <!--            </intent-filter>-->
-
 <!--        </activity>-->
+
+<!--        &lt;!&ndash; ============================================================ &ndash;&gt;-->
+<!--        &lt;!&ndash; ✅ قناة الإشعارات الافتراضية لـ FCM                          &ndash;&gt;-->
+<!--        &lt;!&ndash; ============================================================ &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+<!--            android:value="high_importance_channel" />-->
+
+<!--        &lt;!&ndash; ✅ أيقونة الإشعار (تظهر في شريط الحالة) &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            android:resource="@mipmap/ic_launcher" />-->
+
+<!--        &lt;!&ndash; ✅ لون الإشعار &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_color"-->
+<!--            android:resource="@android:color/white" />-->
 
 <!--        <meta-data-->
 <!--            android:name="flutterEmbedding"-->
 <!--            android:value="2" />-->
-
 <!--    </application>-->
 
 <!--    <queries>-->
@@ -87,48 +112,22 @@
 <!--            <data android:mimeType="text/plain"/>-->
 <!--        </intent>-->
 <!--    </queries>-->
-
 <!--</manifest>-->
-
 
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet -->
+    <!-- ============================================================ -->
+    <!-- ✅ الصلاحيات المطلوبة لـ FCM + API                            -->
+    <!-- ============================================================ -->
     <uses-permission android:name="android.permission.INTERNET"/>
-
-    <!-- Apps that can handle external links -->
-    <queries>
-
-        <!-- Web browser / HTTPS -->
-        <intent>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.BROWSABLE"/>
-            <data android:scheme="https"/>
-        </intent>
-
-        <!-- Google Maps / geo -->
-        <intent>
-            <action android:name="android.intent.action.VIEW"/>
-            <data android:scheme="geo"/>
-        </intent>
-
-        <!-- Phone dialer -->
-        <intent>
-            <action android:name="android.intent.action.DIAL"/>
-            <data android:scheme="tel"/>
-        </intent>
-
-        <!-- Flutter text processing -->
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-
-    </queries>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-        android:label="Sense Loyalty"
+        android:label=" Sense Loyalty"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
@@ -151,13 +150,60 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
+
+        <!-- ============================================================ -->
+        <!-- ✅ قناة الإشعارات الافتراضية لـ FCM                          -->
+        <!-- ============================================================ -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="high_importance_channel" />
+
+        <!-- ✅ أيقونة الإشعار (تظهر في شريط الحالة) -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <!-- ✅ لون الإشعار -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@android:color/white" />
 
         <meta-data
             android:name="flutterEmbedding"
-            android:value="2"/>
-
+            android:value="2" />
     </application>
 
+    <!-- ============================================================ -->
+    <!-- ✅ Queries للسماح بفتح الاتصال، الإيميل، والموقع               -->
+    <!-- ============================================================ -->
+    <queries>
+        <!-- للنص (موجود عندك أصلاً) -->
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+
+        <!-- ✅ لفتح تطبيق الاتصال (tel:) -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+
+        <!-- ✅ لفتح تطبيق الإيميل (mailto:) -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+
+        <!-- ✅ لفتح المتصفح (http/https) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 </manifest>

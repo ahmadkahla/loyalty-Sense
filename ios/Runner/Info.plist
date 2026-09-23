@@ -56,5 +56,15 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+
+	<!-- ⭐ السماح بفتح التطبيقات الخارجية (url_launcher) -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+		<string>telprompt</string>
+		<string>mailto</string>
+		<string>https</string>
+		<string>http</string>
+	</array>
 </dict>
 </plist>

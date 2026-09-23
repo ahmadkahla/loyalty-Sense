@@ -1,156 +1,8 @@
-// import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter/material.dart';
-//
-// class AboutUsScreen extends StatelessWidget {
-//   const AboutUsScreen({super.key});
-//
-//   static const Color primaryColor = Color(0xFFA5005A);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       physics: const BouncingScrollPhysics(),
-//       padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           // ==================================================
-//           // LOGO
-//           // ==================================================
-//           Image.asset(
-//             'assets/7767de42-0a90-4833-add1-bc5a2a20b6f2.png',
-//             width: 200,
-//             fit: BoxFit.contain,
-//           ),
-//
-//           const SizedBox(height: 24),
-//
-//           // ==================================================
-//           // TITLE
-//           // ==================================================
-//           Text(
-//             'about_us'.tr(),
-//             textAlign: TextAlign.center,
-//             style: const TextStyle(
-//               fontSize: 22,
-//               fontWeight: FontWeight.bold,
-//               color: primaryColor,
-//             ),
-//           ),
-//
-//           const SizedBox(height: 16),
-//
-//           // ==================================================
-//           // DESCRIPTION
-//           // ==================================================
-//           Text(
-//             'about_us_description'.tr(),
-//             textAlign: TextAlign.center,
-//             style: const TextStyle(fontSize: 15, height: 1.6),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter/material.dart';
-//
-// class AboutUsScreen extends StatelessWidget {
-//   const AboutUsScreen({super.key});
-//
-//   static const Color primaryColor = Color(0xFFA5005A);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // 👈 خلفية الشاشة حسب الثيم (Light/Dark)
-//       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-//
-//       // 👈 AppBar مع زر رجوع تلقائي
-//       appBar: AppBar(
-//         backgroundColor: Colors.transparent,
-//         elevation: 0,
-//         leading: IconButton(
-//           icon: Icon(
-//             Icons.arrow_back_ios_new_rounded,
-//             color: Theme.of(context).brightness == Brightness.dark
-//                 ? Colors.white
-//                 : primaryColor,
-//             size: 20,
-//           ),
-//           onPressed: () => Navigator.of(context).pop(),
-//         ),
-//         title: Text(
-//           'about_us'.tr(),
-//           style: TextStyle(
-//             fontWeight: FontWeight.w600,
-//             color: Theme.of(context).brightness == Brightness.dark
-//                 ? Colors.white
-//                 : const Color(0xFF242124),
-//           ),
-//         ),
-//         centerTitle: true,
-//       ),
-//
-//       body: SingleChildScrollView(
-//         physics: const BouncingScrollPhysics(),
-//         padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             // ==================================================
-//             // LOGO
-//             // ==================================================
-//             Image.asset(
-//               'assets/7767de42-0a90-4833-add1-bc5a2a20b6f2.png',
-//               width: 200,
-//               fit: BoxFit.contain,
-//             ),
-//
-//             const SizedBox(height: 24),
-//
-//             // ==================================================
-//             // TITLE
-//             // ==================================================
-//             Text(
-//               'about_us'.tr(),
-//               textAlign: TextAlign.center,
-//               style: const TextStyle(
-//                 fontSize: 22,
-//                 fontWeight: FontWeight.bold,
-//                 color: primaryColor,
-//               ),
-//             ),
-//
-//             const SizedBox(height: 16),
-//
-//             // ==================================================
-//             // DESCRIPTION
-//             // ==================================================
-//             Text(
-//               'about_us_description'.tr(),
-//               textAlign: TextAlign.center,
-//               style: TextStyle(
-//                 fontSize: 15,
-//                 height: 1.6,
-//                 color: Theme.of(context).brightness == Brightness.dark
-//                     ? Colors.white70
-//                     : Colors.black87,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});
@@ -171,21 +23,12 @@ class AboutUsScreen extends StatelessWidget {
           : const Color(0xFFF8F9FF),
       body: Stack(
         children: [
-          // ==================================================
-          // BACKGROUND DECORATIONS
-          // ==================================================
           _BackgroundDecorations(isDark: isDark),
 
-          // ==================================================
-          // MAIN CONTENT
-          // ==================================================
           SafeArea(
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // ==============================================
-                // APP BAR
-                // ==============================================
                 SliverAppBar(
                   pinned: true,
                   backgroundColor: isDark
@@ -213,9 +56,6 @@ class AboutUsScreen extends StatelessWidget {
                   centerTitle: true,
                 ),
 
-                // ==============================================
-                // CONTENT
-                // ==============================================
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 40),
@@ -245,10 +85,6 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 }
-
-// =================================================================
-// BACKGROUND DECORATIONS
-// =================================================================
 
 class _BackgroundDecorations extends StatelessWidget {
   final bool isDark;
@@ -309,10 +145,6 @@ class _GlowCircle extends StatelessWidget {
   }
 }
 
-// =================================================================
-// CUSTOM ICON BUTTON
-// =================================================================
-
 class _IconButton extends StatelessWidget {
   final IconData icon;
   final bool isDark;
@@ -347,10 +179,6 @@ class _IconButton extends StatelessWidget {
     );
   }
 }
-
-// =================================================================
-// LOGO CARD
-// =================================================================
 
 class _LogoCard extends StatelessWidget {
   final bool isDark;
@@ -413,10 +241,6 @@ class _LogoCard extends StatelessWidget {
   }
 }
 
-// =================================================================
-// COMPANY TITLE
-// =================================================================
-
 class _CompanyTitle extends StatelessWidget {
   final bool isDark;
   final double scale;
@@ -452,10 +276,6 @@ class _CompanyTitle extends StatelessWidget {
     );
   }
 }
-
-// =================================================================
-// STATS ROW
-// =================================================================
 
 class _StatsRow extends StatelessWidget {
   final bool isDark;
@@ -557,10 +377,6 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-// =================================================================
-// DESCRIPTION CARD
-// =================================================================
-
 class _DescriptionCard extends StatelessWidget {
   final bool isDark;
   const _DescriptionCard({required this.isDark});
@@ -634,10 +450,6 @@ class _DescriptionCard extends StatelessWidget {
   }
 }
 
-// =================================================================
-// CONTACT SECTION
-// =================================================================
-
 class _ContactSection extends StatelessWidget {
   final bool isDark;
   const _ContactSection({required this.isDark});
@@ -701,6 +513,7 @@ class _ContactSection extends StatelessWidget {
             label: 'Phone'.tr(),
             value: '0799509996',
             isDark: isDark,
+            launchUrl: 'tel:0799509996',
           ),
           const SizedBox(height: 12),
           _ContactTile(
@@ -708,6 +521,7 @@ class _ContactSection extends StatelessWidget {
             label: 'Email'.tr(),
             value: 'e.senseacc@gmail.com',
             isDark: isDark,
+            launchUrl: 'mailto:e.senseacc@gmail.com',
           ),
           const SizedBox(height: 12),
           _ContactTile(
@@ -715,6 +529,7 @@ class _ContactSection extends StatelessWidget {
             label: 'Website'.tr(),
             value: 'sensemakeupjo.com',
             isDark: isDark,
+            launchUrl: 'https://sensemakeupjo.com',
           ),
         ],
       ),
@@ -727,60 +542,106 @@ class _ContactTile extends StatelessWidget {
   final String label;
   final String value;
   final bool isDark;
+  final String? launchUrl;
+
   const _ContactTile({
     required this.icon,
     required this.label,
     required this.value,
     required this.isDark,
+    this.launchUrl,
   });
+
+  Future<void> _handleTap(BuildContext context) async {
+    if (launchUrl == null) return;
+
+    final uri = Uri.parse(launchUrl!);
+    try {
+      final launched = await launcher.launchUrl(
+        uri,
+        mode: launcher.LaunchMode.externalApplication,
+      );
+      if (!launched && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not open ${uri.toString()}')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 42,
-          height: 42,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(13),
-            color: AboutUsScreen.primaryColor.withOpacity(0.15),
-          ),
-          child: Icon(icon, color: AboutUsScreen.primaryColor, size: 20),
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: launchUrl != null ? () => _handleTap(context) : null,
+        borderRadius: BorderRadius.circular(14),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+          child: Row(
             children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.8,
-                  color: isDark ? Colors.white54 : const Color(0xFF8A8FA3),
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  color: AboutUsScreen.primaryColor.withOpacity(0.15),
+                ),
+                child: Icon(icon, color: AboutUsScreen.primaryColor, size: 20),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.8,
+                        color: isDark
+                            ? Colors.white54
+                            : const Color(0xFF8A8FA3),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      value,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? Colors.white : const Color(0xFF242124),
+                        decoration: launchUrl != null
+                            ? TextDecoration.underline
+                            : TextDecoration.none,
+                        decorationColor: AboutUsScreen.primaryColor.withOpacity(
+                          0.5,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : const Color(0xFF242124),
+              if (launchUrl != null)
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 14,
+                  color: isDark ? Colors.white38 : const Color(0xFF8A8FA3),
                 ),
-              ),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
-
-// =================================================================
-// FOOTER
-// =================================================================
 
 class _Footer extends StatelessWidget {
   final bool isDark;
@@ -818,16 +679,6 @@ class _Footer extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          '© 2009 - 2026 SENSE Makeup & More',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.5,
-            color: isDark ? Colors.white38 : const Color(0xFF8A8FA3),
-          ),
-        ),
       ],
     );
   }

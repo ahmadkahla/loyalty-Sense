@@ -170,8 +170,11 @@
   "privacy_12_body": "The Privacy Policy may be updated when necessary to keep pace with app development or changes in how data is handled. The updated version will be made available to the user through the app or appropriate channels.",
 
   "privacy_13_title": "Contact",
-  "privacy_13_body": "For inquiries related to privacy or user data, you can contact SENSE through the official communication channels available in the app."
-
+  "privacy_13_body": "For inquiries related to privacy or user data, you can contact SENSE through the official communication channels available in the app.",
+  "open_link": "Open link",
+  "close": "Close",
+"labels.new": "new",
+  "labels.old": "labels.old"
 
 
 
